@@ -4,17 +4,17 @@ USER root
 
 WORKDIR /var/www/html
 
-RUN apt update && apt install -y \
-        nodejs \
-        npm \
-        libpng-dev \
-        zlib1g-dev \
-        libxml2-dev \
-        libzip-dev \
-        libonig-dev \
-        zip \
-        curl \
-        unzip \
+RUN apt update && apt upgrade && apt install -y \
+    nodejs \
+    npm \
+    libpng-dev \
+    zlib1g-dev \
+    libxml2-dev \
+    libzip-dev \
+    libonig-dev \
+    zip \
+    curl \
+    unzip \
     && docker-php-ext-configure gd \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql \
