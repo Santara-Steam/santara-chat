@@ -1,7 +1,7 @@
 name: Main
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  SERVICE: santara-chatgroup # google run service name
+  SERVICE: santara-chatgroup  # google run service name
   REGION: asia-southeast2
 on:
   push:
