@@ -21,6 +21,20 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/sso', function (){
+
+    $query = request()->getQueryString();
+
+    $session = json_decode(base64_decode($query), true);
+
+    session()->invalidate();
+    session()->put($session);
+    session()->save();
+
+    return response()->json([
+        'success' => true
+    ]);
+});
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
