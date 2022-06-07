@@ -40,7 +40,7 @@
     </li>
 @endif
 @role('Member')
-    <li class="nav-item {{ Request::is('meetings*') ? 'active' : '' }}">
+    <li hidden class="nav-item {{ Request::is('meetings*') ? 'active' : '' }}">
         <a class="nav-link {{ Request::is('meetings*') ? 'active' : '' }}" href="{{ route('meetings.member_index') }}">
             <i class="fa fa-stack-exchange nav-icon me-4"></i>
             <span>{{ __('messages.meetings') }}</span>

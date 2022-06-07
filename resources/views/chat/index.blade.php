@@ -32,7 +32,7 @@
                                            title="{{ __('messages.create_new_group') }}"><img
                                                     src="{{asset('assets/icons/group.png')}}" width="33" height="33"></i>
                                     </div>
-                                @elseif($membersCanAddGroup == 1)
+                                {{-- @elseif($membersCanAddGroup == 1)
                                     <div
                                         class="chat__people-wrapper-button btn-create-group me-2 d-flex align-items-center"
                                         data-bs-toggle="modal"
@@ -41,15 +41,15 @@
                                            data-bs-placement="bottom"
                                            title="{{ __('messages.create_new_group') }}"><img
                                                     src="{{asset('assets/icons/group.png')}}" width="33" height="33"></i>
-                                    </div>
+                                    </div> --}}
                                 @endif
                             @endif
-                            <div class="chat__people-wrapper-button d-flex align-items-center" data-bs-toggle="modal"
+                            {{-- <div class="chat__people-wrapper-button d-flex align-items-center" data-bs-toggle="modal"
                                  data-bs-target="#addNewChat">
                                 <i class="nav-icon remove-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                    title="{{ __('messages.new_conversation') }}"><img
                                         src="{{asset('assets/icons/bubble-chat.png')}}" width="30" height="30"></i>
-                            </div>
+                            </div> --}}
                             <i class="nav-icon fa fa-times align-top chat__people-close-bar d-sm-none d-block align-self-center ms-2"></i>
                         </div>
                     </div>
@@ -62,12 +62,13 @@
                         </div>
                     </div>
                     <ul class="nav nav-tabs chat__tab-nav mb-1 border-bottom-0" id="chatTabs">
-                        <li class="nav-item">
-                            <a data-bs-toggle="tab" id="activeChatTab" class="nav-link active login-group__sub-title" href="#chatPeopleBody">{{__('messages.chats.active_chat')}}</a>
+                        <li class="nav-item" style="width: -webkit-fill-available;">
+                            {{-- <a data-bs-toggle="tab" id="activeChatTab" class="nav-link active login-group__sub-title" href="#chatPeopleBody">{{__('messages.chats.active_chat')}}</a> --}}
+                            <a data-bs-toggle="tab" id="activeChatTab" class="nav-link active login-group__sub-title" href="#chatPeopleBody">Emiten Group Chat</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a data-bs-toggle="tab" id="archiveChatTab" class="nav-link login-group__sub-title" href="#archivePeopleBody">{{__('messages.chats.archive_chat')}}</a>
-                        </li>
+                        </li> --}}
                     </ul>
                     <div class="tab-content chat__tab-content">
                         <div class="chat__people-body tab-pane fade in active show" id="chatPeopleBody">

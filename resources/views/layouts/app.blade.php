@@ -5,14 +5,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>@yield('title') | {{ getAppName() }}</title>
+    <title>@yield('title') | Santara Chat Group</title>
+    {{-- <title>@yield('title') | {{ getAppName() }}</title> --}}
     <meta name="description" content="@yield('title') - {{getAppName()}}">
     <meta name="keyword" content="CoreUI,Bootstrap,Admin,Template,InfyOm,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- PWA  -->
     <meta name="theme-color" content="#009ef7"/>
-    <link rel="apple-touch-icon" href="{{ asset('assets/images/logo-30x30.png') }}">
+    <link rel="apple-touch-icon" href="https://storage.googleapis.com/asset-santara/santara.co.id/images/ico/favicon.ico">
+    {{-- <link rel="apple-touch-icon" href="{{ asset('assets/images/logo-30x30.png') }}"> --}}
     <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="shortcut icon" type="image/x-icon"
+    href="https://storage.googleapis.com/asset-santara/santara.co.id/images/ico/favicon.ico">
 
     <!-- Bootstrap 4.1.3 -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -38,7 +42,7 @@
     <link rel="stylesheet" href="{{ mix('assets/css/custom-style.css') }}">
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
-<header class="app-header navbar">
+<header class="app-header navbar" style="background-color: #1c1c28">
     <button class="navbar-toggler sidebar-toggler d-lg-none me-auto" type="button" data-toggle="sidebar-show">
         <i class="fa fa-angle-right header-arrow-small" aria-hidden="true"></i>
         <i class="fa fa-chevron-right header-arrow" aria-hidden="true"></i>
@@ -133,13 +137,15 @@
 @include('chat.templates.notification')
 @include('partials.file-upload')
 @include('partials.set_custom_status_modal')
-<footer class="app-footer">
+<footer style="
+background-color: #1c1c28;color:white
+" class="app-footer">
     <div class="d-flex justify-content-between w-100">
         <div>
-            <a href="https://chat.infyom.com/">{{ getAppName() }}</a>
-            <span>&copy; 2019 - {{date('Y')}} {{ getCompanyName() }}.</span>
+            <a href="https://santara.co.id/">Santara</a>
+            <span>Website Ver 5.8.8 - Business Ver 3.6.2 | Copyright &copy; {{date('Y')}} Santara, All rights reserved.</span>
         </div>
-        <span class="text-right">{{ version() }}</span>
+        {{-- <span class="text-right">{{ version() }}</span> --}}
     </div>
 </footer>
 </body>

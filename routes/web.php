@@ -26,7 +26,8 @@ use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 */
 
 Route::get('/', function () {
-    return view('home.index');
+    // return view('home.index');
+    return redirect()->route('login');
 });
 
 Route::get('upgrade-to-v3-4-0', function () {

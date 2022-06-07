@@ -1,11 +1,12 @@
-<div class="sidebar">
+<div class="sidebar" style="background-color: #1c1c28">
     <nav class="sidebar-nav">
         <div class="d-flex align-items-center justify-content-between mb-3 overflow-hidden sidebar-inner-header">
             <a class="navbar-brand d-flex align-items-center" href="{{url('/')}}">
-                <img class="navbar-brand-minimized me-4" src="{{ getThumbLogoUrl() }}" width="30" alt="Infyom Logo"
+                <img class="navbar-brand-minimized me-4" src="https://santara.co.id/public/assets/images/logo-newsantara-ai-putih-merah-l-1-27@2x.png" width="auto" alt="Santara Logo"
                      height="30" alt="{{config('app.name')}}">
                 <span class="d-flex">
-                    <span class="brand-name-infy">Infy</span><span class="brand-name-chat">Chat</span>
+                    <span class="brand-text" style="font-family: sans-serif;color:white;font-weight: 600;
+                    font-size: 24px;">santara</span>
                 </span>
             </a>
             <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">

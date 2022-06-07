@@ -1,14 +1,14 @@
 {
-    "name": "Test",
-    "short_name": "Infy Chat",
+    "name": "Santara Chat Group",
+    "short_name": "Santara Chat Group",
     "start_url": "\/",
     "background_color": "#6777ef",
-    "description": "Infy Chat Package",
+    "description": "Santara Chat Group",
     "display": "fullscreen",
     "theme_color": "#009ef7",
     "icons": [
         {
-            "src": "assets\/images\/logo-30x30.png",
+            "src": "https://storage.googleapis.com/asset-santara/santara.co.id/images/ico/favicon.ico",
             "sizes": "512x512",
             "type": "image\/png",
             "purpose": "any maskable"
