@@ -169,13 +169,6 @@
       'Livewire' => 'Livewire\\Livewire',
     ),
   ),
-  'mi-lopez/laravel-sso' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Zefy\\LaravelSSO\\SSOServiceProvider',
-    ),
-  ),
   'nesbot/carbon' => 
   array (
     'providers' => 

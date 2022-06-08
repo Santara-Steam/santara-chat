@@ -33,7 +33,6 @@
         "laravelcollective/html": "^6.2",
         "league/flysystem-aws-s3-v3": "^1.0",
         "livewire/livewire": "^2.0",
-        "mi-lopez/laravel-sso": "dev-master",
         "pusher/pusher-php-server": "^7.0",
         "rap2hpoutre/laravel-log-viewer": "^2.1",
         "spatie/laravel-permission": "^4.2",
