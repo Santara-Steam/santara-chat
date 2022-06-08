@@ -86,6 +86,10 @@ Route::get('upgrade-to-v6-0-0', function () {
     }
 });
 
+Route::get('sso', function (){
+   dd(session()->all(), auth()->check());
+});
+
 Auth::routes();
 Route::get('activate', [AuthController::class, 'verifyAccount']);
 
@@ -168,7 +172,7 @@ Route::group(['middleware' => ['user.activated', 'auth']], function () {
 
     //report user
     Route::post('report-user', [API\ReportUserController::class, 'store'])->name('report-user.store');
-    
+
     // Laravel Logs route
     Route::get('logs', [LogViewerController::class, 'index']);
 });

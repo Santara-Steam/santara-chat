@@ -85,6 +85,7 @@
                                 <div class="chat__no-conversation">
                                     <div class="text-center"><i class="fa fa-2x fa-commenting-o" aria-hidden="true"></i></div>
                                     {{ __('messages.no_conversation_added_yet') }}
+
                                 </div>
                             </div>
                             <div id="loadMoreConversationBtn" style="display: none">
@@ -137,6 +138,7 @@
                             &times;
                         </button>
                     </div>
+
                     <div class="modal-body">
                         <nav class="nav nav-pills flex-wrap" id="myTab" role="tablist">
                             <a class="nav-item nav-link active" id="nav-my-contacts-tab" data-bs-toggle="tab"
