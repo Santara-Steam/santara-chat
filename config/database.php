@@ -64,6 +64,26 @@ return [
             'modes' => [],
         ],
 
+        'session_database' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL_SESSION'),
+            'host' => env('DB_HOST_SESSION', '127.0.0.1'),
+            'port' => env('DB_PORT_SESSION', '3306'),
+            'database' => env('DB_DATABASE_SESSION', 'forge'),
+            'username' => env('DB_USERNAME_SESSION', 'forge'),
+            'password' => env('DB_PASSWORD_SESSION', ''),
+            'unix_socket' => env('DB_SOCKET_SESSION', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => false,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

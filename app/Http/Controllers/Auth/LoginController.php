@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class LoginController
@@ -62,7 +63,7 @@ class LoginController extends Controller
         $this->customLogout($request);
 
         if (\Auth::user()) {
-            \Auth::logout();
+            Auth::logout();
         }
 
         return redirect('/login');
