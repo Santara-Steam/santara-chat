@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use Database\Seeders\CreatePermissionSeeder;
 use Database\Seeders\SetIsDefaultSuperAdminSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -28,24 +29,24 @@ use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 |
 */
 
+Auth::routes();
 Route::get('/', function () {
      return view('home.index');
 //    return redirect()->route('login');
 });
 
-Route::get('/login', function (Request $request) {
-
-    $request->session()->put("state", $state = Str::random(40));
-    $query = http_build_query([
-        "client_id" => env("SANTARA_OAUTH2_CLIENT_ID"),
-        "redirect_uri" => env('SANTARA_CHAT_CALLBACK_URL'),
-        "response_type" => "code",
-        "scope" => "",
-        "state" => $state
-    ]);
-
-    return redirect(env("SANTARA_BASE_URL") . "/oauth/authorize?" . $query);
-});
+//Route::get('/login', function (Request $request) {
+//
+//    $request->session()->put("state", $state = Str::random(40));
+//    $query = http_build_query([
+//        "client_id" => env("SANTARA_OAUTH2_CLIENT_ID"),
+//        "redirect_uri" => env('SANTARA_CHAT_CALLBACK_URL'),
+//        "response_type" => "code",
+//        "state" => $state
+//    ]);
+//
+//    return redirect(env("SANTARA_BASE_URL") . "/oauth/authorize?" . $query);
+//});
 
 Route::get('/callback', function (Request $request){
     $state = $request->session()->pull("state");
