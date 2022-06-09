@@ -28,7 +28,7 @@
     <script src="{{ mix('assets/js/jquery.min.js') }}"></script>
 
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-    @if(Auth::user()->is_subscribed)
+    @if(\App\Helper\Auth::User()->is_subscribed)
         @include('layouts.one_signal')
     @endif
 
@@ -83,7 +83,7 @@
         <li class="dropdown language-menu no-hover me-3">
             <a href="#" class="dropdown-toggle text-success text-decoration-none"
                data-bs-toggle="dropdown" role="button">
-                {{ strtoupper(getCurrentLanguageName()) }}&nbsp;
+                {{ strtoupper(\App\Helper\Internationalization::getCurrentLanguageName()) }}&nbsp;
                 <span class="caret"></span>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-right" role="menu">
@@ -96,8 +96,8 @@
         <li class="nav-item dropdown">
             <a class="nav-link avatar-name" style="margin-right: 10px" data-bs-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">
-                <span class="profile-name">{{ (htmlspecialchars_decode(Auth::user()->name))??'' }}</span>
-                <img class="img-avatar" src="{{Auth::user()->photo_url}}" alt="InfyOm">
+                <span class="profile-name">{{ (htmlspecialchars_decode(\App\Helper\Auth::user()->name))??'' }}</span>
+                <img class="img-avatar" src="{{\App\Helper\Auth::user()->photo_url}}" alt="InfyOm">
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header text-center dropdown-text">
@@ -182,10 +182,10 @@ background-color: #1c1c28;color:white
     let baseURL = '{{ url('/') }}';
     let conversationsURL = '{{ route('conversations') }}';
     let notifications = JSON.parse(JSON.stringify({!! json_encode(getNotifications()) !!}));
-    let loggedInUserId = '{{Auth::id()}}';
-    let loggedInUserStatus = '{!! Auth::user()->userStatus !!}';
+    let loggedInUserId = '{{\App\Helper\Auth::ID()}}';
+    let loggedInUserStatus = '{!! \App\Helper\Auth::user()->userStatus !!}';
     if (loggedInUserStatus != '') {
-        loggedInUserStatus = JSON.parse(JSON.stringify({!! Auth::user()->userStatus !!}));
+        loggedInUserStatus = JSON.parse(JSON.stringify({!! \App\Helper\Auth::user()->userStatus !!}));
     }
     {{--let setUserCustomStatusUrl = '{{ route('set-user-status') }}';--}}
     {{--let clearUserCustomStatusUrl = '{{ route('clear-user-status') }}';--}}

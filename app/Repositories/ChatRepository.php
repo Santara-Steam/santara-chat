@@ -74,7 +74,7 @@ class ChatRepository extends BaseRepository
     {
         $offset = isset($input['offset']) ? $input['offset'] : 0;
         $isArchived = isset($input['isArchived']) ? 1 : 0;
-        $authId = getLoggedInUserId();
+        $authId = \App\Helper\Auth::ID();
         $isGroupChatEnabled = isGroupChatEnabled();
 
         $subQuery = Conversation::leftJoin('users as u', 'u.id', '=', DB::raw("if(from_id = $authId, to_id, from_id)"))
@@ -137,7 +137,7 @@ class ChatRepository extends BaseRepository
 
         $archiveUsers = ArchivedUser::toBase()
             ->select('owner_id')
-            ->whereArchivedBy(getLoggedInUserId())
+            ->whereArchivedBy($authId)
             ->whereOwnerType(User::class)
             ->pluck('owner_id')->toArray();
 
@@ -155,7 +155,7 @@ class ChatRepository extends BaseRepository
         } else {
             $archiveGroups = [];
             if ($isGroupChatEnabled) {
-                $archiveGroups = ArchivedUser::whereArchivedBy(getLoggedInUserId())->whereOwnerType(Group::class)->get()->pluck('owner_id')->toArray();
+                $archiveGroups = ArchivedUser::whereArchivedBy($authId)->whereOwnerType(Group::class)->get()->pluck('owner_id')->toArray();
             }
             $chatList = $chatList->where(function ($query) use ($archiveUsers, $archiveGroups, $isGroupChatEnabled) {
                 $query->whereIn('temp.user_id', $archiveUsers);

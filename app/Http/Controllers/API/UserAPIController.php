@@ -112,7 +112,7 @@ class UserAPIController extends AppBaseController
     public function updateLastSeen(Request $request)
     {
         /** @var User $user */
-        $user = $request->user();
+        $user = App\Helper\Auth::User();
 
         $lastSeen = ($request->has('status') && $request->get('status') > 0) ? null : Carbon::now();
 

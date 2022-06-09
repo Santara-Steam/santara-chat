@@ -31,7 +31,7 @@
         </a>
     </li>
 @endcan
-@if(!Auth::user()->hasRole('Member') && (Auth::user()->hasRole('Admin') || Auth::user()->hasPermissionTo('manage_meetings')))
+@if(!\App\Helper\Auth::user()->hasRole('Member') && (\App\Helper\Auth::user()->hasRole('Admin') || \App\Helper\Auth::user()->hasPermissionTo('manage_meetings')))
     <li class="nav-item {{ Request::is('meetings*') ? 'active' : '' }}">
         <a class="nav-link {{ Request::is('meetings*') ? 'active' : '' }}" href="{{ route('meetings.index') }}">
             <i class="fa fa-stack-exchange nav-icon me-4"></i>

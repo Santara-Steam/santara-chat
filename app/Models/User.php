@@ -125,11 +125,11 @@ class User extends Authenticatable
     const FILTER_ACTIVE = 3;
     const FILTER_INACTIVE = 4;
     const FILTER_ALL = 5;
-    
+
     const PRIVACY_FILTER_PUBLIC = 1;
     const PRIVACY_FILTER_PRIVATE = 0;
     const PRIVACY_FILTER_ALL = 2;
-    
+
     const FILTER_ARRAY = [
         self::FILTER_ALL => 'Select Status (ALL)',
         self::FILTER_UNARCHIVE => 'Unarchive',
@@ -150,6 +150,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',

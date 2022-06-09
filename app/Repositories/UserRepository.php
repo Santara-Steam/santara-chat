@@ -436,7 +436,9 @@ class UserRepository extends BaseRepository
      */
     public function myContactIds()
     {
-        $authId = getLoggedInUserId();
+//        $authId = getLoggedInUserId();
+        $authId = App\Helper\Auth::ID();
+
         $records = ChatRequestModel::whereOwnerType(User::class)
             ->where(function (Builder $query) use ($authId) {
                 $query->where('from_id', '=', $authId)
@@ -444,6 +446,7 @@ class UserRepository extends BaseRepository
             })
             ->get(DB::raw("IF(from_id=$authId, owner_id, from_id) as my_contact_id, status"))
             ->groupBy('status');
+
 
         $myContactIds = (isset($records[ChatRequestModel::STATUS_ACCEPTED])) ?
             $records[ChatRequestModel::STATUS_ACCEPTED]->pluck('my_contact_id')->toArray() :

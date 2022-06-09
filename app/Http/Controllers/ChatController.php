@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Auth;
 use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\BlockUserRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
@@ -55,19 +55,15 @@ class ChatController extends AppBaseController
         if (isset($setting['notification_sound'])) {
             $data['notification_sound'] = app(Setting::class)->getNotificationSound($setting['notification_sound']);
         }
-        
-        if (Auth::user()->is_super_admin == 1) {
-            # code...
-            return view('chat.index')->with($data);
-        }else{
 
-            
-            $baseUrl = env('SANTARA_API_BASE_URL');
-            $response = Http::get($baseUrl . "/ownPortofolio", 'userId=' . auth()->id())->body();
-            
-            $data["portofolio"] = json_decode($response, true)['data'];
-            
-            return view('chat.index')->with($data);
+        $baseUrl = env('SANTARA_API_BASE_URL');
+        $response = Http::get($baseUrl . "/ownPortofolio", 'userId=' . Auth::ID())->body();
+        $response = json_decode($response, true);
+
+        if (!empty($response['data'])) {
+            $data["portofolio"] = ['data'];
         }
+
+        return view('chat.index')->with($data);
     }
 }

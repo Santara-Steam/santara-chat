@@ -22,27 +22,27 @@
                             <i class="nav-icon fa fa-bars align-top chat__people-wrapper-bar"></i>
 
                             @if($enableGroupSetting == 1)
-                                @if(Auth::user()->hasRole('Admin'))
-                                    <div
-                                        class="chat__people-wrapper-button btn-create-group me-2 d-flex align-items-center"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#createNewGroup">
-                                        <i class="nav-icon group-icon color-green remove-tooltip" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom"
-                                           title="{{ __('messages.create_new_group') }}"><img
-                                                    src="{{asset('assets/icons/group.png')}}" width="33" height="33"></i>
-                                    </div>
-                                {{-- @elseif($membersCanAddGroup == 1)
-                                    <div
-                                        class="chat__people-wrapper-button btn-create-group me-2 d-flex align-items-center"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#createNewGroup">
-                                        <i class="nav-icon group-icon color-green remove-tooltip" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom"
-                                           title="{{ __('messages.create_new_group') }}"><img
-                                                    src="{{asset('assets/icons/group.png')}}" width="33" height="33"></i>
-                                    </div> --}}
-                                @endif
+{{--                                @if(Auth::user()->hasRole('Admin'))--}}
+{{--                                    <div--}}
+{{--                                        class="chat__people-wrapper-button btn-create-group me-2 d-flex align-items-center"--}}
+{{--                                        data-bs-toggle="modal"--}}
+{{--                                        data-bs-target="#createNewGroup">--}}
+{{--                                        <i class="nav-icon group-icon color-green remove-tooltip" data-bs-toggle="tooltip"--}}
+{{--                                           data-bs-placement="bottom"--}}
+{{--                                           title="{{ __('messages.create_new_group') }}"><img--}}
+{{--                                                    src="{{asset('assets/icons/group.png')}}" width="33" height="33"></i>--}}
+{{--                                    </div>--}}
+{{--                                --}}{{-- @elseif($membersCanAddGroup == 1)--}}
+{{--                                    <div--}}
+{{--                                        class="chat__people-wrapper-button btn-create-group me-2 d-flex align-items-center"--}}
+{{--                                        data-bs-toggle="modal"--}}
+{{--                                        data-bs-target="#createNewGroup">--}}
+{{--                                        <i class="nav-icon group-icon color-green remove-tooltip" data-bs-toggle="tooltip"--}}
+{{--                                           data-bs-placement="bottom"--}}
+{{--                                           title="{{ __('messages.create_new_group') }}"><img--}}
+{{--                                                    src="{{asset('assets/icons/group.png')}}" width="33" height="33"></i>--}}
+{{--                                    </div> --}}
+{{--                                @endif--}}
                             @endif
                             {{-- <div class="chat__people-wrapper-button d-flex align-items-center" data-bs-toggle="modal"
                                  data-bs-target="#addNewChat">
@@ -136,7 +136,7 @@
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             &times;
                         </button>
-                    </div>    
+                    </div>
                             <a href="#nav-users" role="tab" aria-controls="nav-users" aria-expanded="true">
                                 <i class="ti-user"></i>{{ __('messages.new_conversation') }}
                             </a>
@@ -216,9 +216,9 @@
         {{--let fileUploadURL = '{{route('file-upload')}}';--}}
         {{--let imageUploadURL = '{{route('image-upload')}}';--}}
         let csrfToken = '{{csrf_token()}}';
-        let authUserName = '{{ Auth::user()->name }}';
+        let authUserName = '{{ \App\Helper\Auth::User()->name }}';
         {{--let readMessageURL = '{{url('read-message')}}';--}}
-        let authImgURL = '{{Auth::user()->photo_url}}';
+        let authImgURL = '{{\App\Helper\Auth::User()->photo_url}}';
         let deleteConversationUrl = '{{url('conversations')}}/';
         {{--let deleteMessageUrl = '{{url('conversations/message')}}/';--}}
         {{--let createGroupURL = '{{url('groups')}}';--}}
@@ -231,7 +231,7 @@
         {{--let declineChatReqURL = '{{route('decline-chat-request')}}';--}}
         let enableGroupSetting = '{{ isGroupChatEnabled() }}';
         {{--let reportUserURL = '{{route('report-user.store')}}';--}}
-        let authRole = "{{ Auth::user()->role_name }}";
+        let authRole = "{{ \App\Helper\Auth::user()->role_name }}";
 
         /** Icons URL */
         let pdfURL = '{{ asset('assets/icons/pdf.png') }}';

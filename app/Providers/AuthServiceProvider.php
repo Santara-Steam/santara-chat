@@ -31,26 +31,8 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::routes();
 
-        Socialite::extend('google', function ($app) {
-            $config = $this->app['config']['services.google'];
-
-            return new GoogleAuthProvider(
-                $app['request'],
-                $config['client_id'],
-                $config['client_secret'],
-                $config['redirect']
-            );
-        });
-
-        Socialite::extend('facebook', function ($app) {
-            $config = $this->app['config']['services.facebook'];
-
-            return new FacebookAuthProvider(
-                $app['request'],
-                $config['client_id'],
-                $config['client_secret'],
-                $config['redirect']
-            );
-        });
+        Passport::tokensExpireIn(now()->addDays(1));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
+        Passport::personalAccessTokensExpireIn(now()->addDays(6));
     }
 }

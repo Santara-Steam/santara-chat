@@ -51,22 +51,18 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return RedirectResponse|Redirector
-     */
     public function logout(Request $request)
     {
-        $user = User::find(\Auth::id());
+        $user = User::find(\App\Helper\Auth::ID());
         $user->update(['is_online' => 0, 'last_seen' => Carbon::now()]);
+
         $this->customLogout($request);
 
-        if (\Auth::user()) {
-            Auth::logout();
-        }
+//        if (\Auth::user()) {
+//            Auth::logout();
+//        }
 
-        return redirect('/login');
+        return redirect('/');
     }
 
     /**

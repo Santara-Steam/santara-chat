@@ -76,8 +76,8 @@
                 <p class="landing__description mt-3">
                     {{ __('messages.landing__description') }}
                 </p>
-                <a href="/login" class="landing__get-start-btn primary-btn btn text-white">
-                    LOGIN SSO
+                <a href="/grant-access" class="landing__get-start-btn primary-btn btn text-white">
+                    GRANT ACCESS
                 </a>
             </div>
             <div class="col-12 landing__responsive-col">

@@ -8,11 +8,14 @@ use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\ReportUserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SsoController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Database\Seeders\CreatePermissionSeeder;
 use Database\Seeders\SetIsDefaultSuperAdminSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -29,121 +32,35 @@ use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 |
 */
 
-Auth::routes();
 Route::get('/', function () {
-     return view('home.index');
-//    return redirect()->route('login');
-});
-
-//Route::get('/login', function (Request $request) {
-//
-//    $request->session()->put("state", $state = Str::random(40));
-//    $query = http_build_query([
-//        "client_id" => env("SANTARA_OAUTH2_CLIENT_ID"),
-//        "redirect_uri" => env('SANTARA_CHAT_CALLBACK_URL'),
-//        "response_type" => "code",
-//        "state" => $state
-//    ]);
-//
-//    return redirect(env("SANTARA_BASE_URL") . "/oauth/authorize?" . $query);
-//});
-
-Route::get('/callback', function (Request $request){
-    $state = $request->session()->pull("state");
-
-    throw_unless(strlen($state) > 0 && $state == $request->get('state'),
-        \http\Exception\InvalidArgumentException::class);
-
-    $response = Http::post(
-        env("SANTARA_BASE_URL") . '/oauth/token',
-        [
-            "grant_type" => "authorization_code",
-            "client_id" => env("SANTARA_OAUTH2_CLIENT_ID"),
-            "client_secret" => env("SANTARA_OAUTH2_CLIENT_SECRET"),
-            "redirect_uri" => env('SANTARA_CHAT_CALLBACK_URL'),
-            "code" => $request->get('code')
-        ]
-    );
-
-    return $response->json();
-});
-
-Route::get('upgrade-to-v3-4-0', function () {
-    try {
-        \Artisan::call('migrate', [
-            '--path'  => '/database/migrations/2020_10_19_133700_move_all_existing_devices_to_new_table.php',
-            '--force' => true,
-        ]);
-
-        return 'You are successfully migrated to v3.4.0';
-    } catch (Exception $exception) {
-        return $exception->getMessage();
+    if (\App\Helper\Auth::User()) {
+        return redirect('/conversations');
     }
-});
+    return view('home.index');
+})->name('home');
 
-Route::get('/upgrade-to-v4-3-0', function () {
-    try {
-        Artisan::call('db:seed', ['--class' => 'CreatePermissionSeeder', '--force' => true]);
-
-        return 'You are successfully seeded to v4.3.0';
-    } catch (Exception $exception) {
-        return $exception->getMessage();
-    }
-});
-
-Route::get('upgrade-to-v5-0-0', function () {
-    try {
-        \Artisan::call('migrate', [
-            '--path'  => '/database/migrations/2021_07_12_000000_add_uuid_to_failed_jobs_table.php',
-            '--force' => true,
-        ]);
-
-        return 'You are successfully migrated to v5.0.0';
-    } catch (Exception $exception) {
-        return $exception->getMessage();
-    }
-});
-
-Route::get('upgrade-to-v6-0-0', function () {
-    try {
-        Artisan::call('migrate', [
-            '--path'  => '/database/migrations/2022_03_02_120506_change_duration_field_type_in_zoom_meetings_table.php',
-            '--force' => true,
-        ]);
-
-        Artisan::call('migrate', [
-            '--path'  => '/database/migrations/2022_03_04_085620_add_is_super_admin_field_in_users_table.php',
-            '--force' => true,
-        ]);
-
-        Artisan::call('db:seed', ['--class' => 'SetIsDefaultSuperAdminSeeder', '--force' => true]);
-
-        return 'You are successfully migrated and seeded to v6.0.0';
-    } catch (Exception $exception) {
-        return $exception->getMessage();
-    }
-});
-
-Route::get('sso', function (){
-   dd(session()->all(), auth()->check());
+Route::get('/authorize', [SsoController::class, 'authorizes']);
+Route::get('/grant-access', function (){
+    return redirect()->away(env('SANTARA_BASE_URL') . '/user/grant-access');
 });
 
 //Auth::routes();
 Route::get('activate', [AuthController::class, 'verifyAccount']);
 
-Route::get('/home', [HomeController::class, 'index']);
+//Route::get('/home', [HomeController::class, 'index']);
 Route::post('update-language', [UserController::class, 'updateLanguage'])->middleware('auth')->name('update-language');
 
 // Impersonate Logout
 Route::get('/users/impersonate-logout',
     [UserController::class, 'userImpersonateLogout'])->name('impersonate.userLogout');
 
-Route::group(['middleware' => ['user.activated', 'auth']], function () {
+Route::group(['middleware' => 'authorized'], function () {
     //view routes
     Route::get('/conversations',
-        [ChatController::class, 'index'])->name('conversations')->middleware('permission:manage_conversations');
+        [ChatController::class, 'index'])->name('conversations');
+
     Route::get('profile', [UserController::class, 'getProfile']);
-    Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout']);
+    Route::post('logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout']);
 
     //get all user list for chat
     Route::get('users-list', [API\UserAPIController::class, 'getUsersList']);
@@ -254,4 +171,46 @@ Route::group(['middleware' => ['permission:manage_meetings', 'auth', 'user.activ
 Route::group(['middleware' => ['web']], function () {
     Route::get('login/{provider}', [\App\Http\Controllers\Auth\SocialAuthController::class, 'redirect']);
     Route::get('login/{provider}/callback', [\App\Http\Controllers\Auth\SocialAuthController::class, 'callback']);
+});
+
+//Route::get('/login', function (\Illuminate\Http\Request $request){
+//    $request->session()->put("state", $state = \Illuminate\Support\Str::random(40));
+//    $query = http_build_query([
+//        "client_id" => "9680211d-267e-41a1-ad8b-bc6d5cba5504",
+//        "redirect_uri" => "http://127.0.0.1:8888/callback",
+//        "response_type" => "code",
+//        "scope" => "",
+//        "state" => $state
+//    ]);
+//
+//    return redirect("http://127.0.0.1:8000/oauth/authorize?" . $query);
+//});
+
+Route::get("/callback", function (\Illuminate\Http\Request $request) {
+    $state = $request->session()->pull("state");
+
+    throw_unless(strlen($state) > 0 && $state == $request->state,
+        \http\Exception\InvalidArgumentException::class);
+    $response = \Illuminate\Support\Facades\Http::post('http://127.0.0.1:8000/oauth/token',
+        [
+            "grant_type" => "authorization_code",
+            "client_id" => "9680211d-267e-41a1-ad8b-bc6d5cba5504",
+            "client_secret" => "zPRs4EeKZNJ5WtK9Gch4e5VUywjhMy64fbSD0EVy",
+            "redirect_uri" => "http://127.0.0.1:8888/callback",
+            "code" => $request->code
+        ]
+    )->json();
+    $request->session()->put($response);
+//    return response()->json(["response" => $response]);
+    return redirect('/authuser');
+});
+
+Route::get("/authuser", function (\Illuminate\Http\Request $request){
+    $access_token = $request->session()->get("access_token");
+    $response = \Illuminate\Support\Facades\Http::withHeaders([
+        "Accept" => "application/json",
+        "Authorization" => "Bearer " . $access_token,
+    ])->get("http://127.0.0.1:8000/api/user");
+
+    return $response->json();
 });
