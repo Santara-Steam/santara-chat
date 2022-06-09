@@ -85,7 +85,6 @@
                                 <div class="chat__no-conversation">
                                     <div class="text-center"><i class="fa fa-2x fa-commenting-o" aria-hidden="true"></i></div>
                                     {{ __('messages.no_conversation_added_yet') }}
-
                                 </div>
                             </div>
                             <div id="loadMoreConversationBtn" style="display: none">
@@ -137,16 +136,8 @@
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             &times;
                         </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <nav class="nav nav-pills flex-wrap" id="myTab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-my-contacts-tab" data-bs-toggle="tab"
-                               href="#nav-my-contacts" role="tab" aria-controls="nav-my-contacts-tab"
-                               aria-expanded="true"> <i class="ti-user"></i>{{ __('messages.my_contacts') }}
-                            </a>
-                            <a class="nav-item nav-link wrap-text" id="nav-users-tab" data-bs-toggle="tab"
-                                    href="#nav-users" role="tab" aria-controls="nav-users" aria-expanded="true">
+                    </div>    
+                            <a href="#nav-users" role="tab" aria-controls="nav-users" aria-expanded="true">
                                 <i class="ti-user"></i>{{ __('messages.new_conversation') }}
                             </a>
                             @if($enableGroupSetting == 1)
