@@ -11,7 +11,10 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use Database\Seeders\CreatePermissionSeeder;
 use Database\Seeders\SetIsDefaultSuperAdminSeeder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 /*
@@ -26,8 +29,42 @@ use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 */
 
 Route::get('/', function () {
-    // return view('home.index');
-    return redirect()->route('login');
+     return view('home.index');
+//    return redirect()->route('login');
+});
+
+Route::get('/login', function (Request $request) {
+
+    $request->session()->put("state", $state = Str::random(40));
+    $query = http_build_query([
+        "client_id" => env("SANTARA_OAUTH2_CLIENT_ID"),
+        "redirect_uri" => env('SANTARA_CHAT_CALLBACK_URL'),
+        "response_type" => "code",
+        "scope" => "",
+        "state" => $state
+    ]);
+
+    return redirect(env("SANTARA_BASE_URL") . "/oauth/authorize?" . $query);
+});
+
+Route::get('/callback', function (Request $request){
+    $state = $request->session()->pull("state");
+
+    throw_unless(strlen($state) > 0 && $state == $request->get('state'),
+        \http\Exception\InvalidArgumentException::class);
+
+    $response = Http::post(
+        env("SANTARA_BASE_URL") . '/oauth/token',
+        [
+            "grant_type" => "authorization_code",
+            "client_id" => env("SANTARA_OAUTH2_CLIENT_ID"),
+            "client_secret" => env("SANTARA_OAUTH2_CLIENT_SECRET"),
+            "redirect_uri" => env('SANTARA_CHAT_CALLBACK_URL'),
+            "code" => $request->get('code')
+        ]
+    );
+
+    return $response->json();
 });
 
 Route::get('upgrade-to-v3-4-0', function () {
@@ -90,7 +127,7 @@ Route::get('sso', function (){
    dd(session()->all(), auth()->check());
 });
 
-Auth::routes();
+//Auth::routes();
 Route::get('activate', [AuthController::class, 'verifyAccount']);
 
 Route::get('/home', [HomeController::class, 'index']);

@@ -76,9 +76,9 @@
                 <p class="landing__description mt-3">
                     {{ __('messages.landing__description') }}
                 </p>
-                <button class="landing__get-start-btn primary-btn btn text-white">
-                    {{ __('messages.buy_now') }}
-                </button>
+                <a href="/login" class="landing__get-start-btn primary-btn btn text-white">
+                    LOGIN SSO
+                </a>
             </div>
             <div class="col-12 landing__responsive-col">
                 <img src="{{asset('assets/images/chat-illustrator.png')}}" alt="landing image" class="img-fluid">
