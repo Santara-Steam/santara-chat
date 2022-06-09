@@ -58,8 +58,15 @@ class ChatController extends AppBaseController
         $baseUrl = env('SANTARA_API_BASE_URL');
         $response = Http::get($baseUrl . "/ownPortofolio", 'userId=' . auth()->id())->body();
 
-        $data["portofolio"] = json_decode($response, true)['data'];
+        if (json_decode($response, true)['success'] == null) {
+            return view('chat.index')->with($data);
+            # code...
+        }else{
+            
+            $data["portofolio"] = json_decode($response, true)['data'];
+            return view('chat.index')->with($data);
+        }
 
-        return view('chat.index')->with($data);
+
     }
 }
