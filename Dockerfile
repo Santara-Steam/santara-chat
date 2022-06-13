@@ -4,7 +4,7 @@ USER root
 
 WORKDIR /var/www/html
 
-RUN apt update && apt upgrade && apt install -y \
+RUN apt update && apt install -y \
     nodejs \
     npm \
     libpng-dev \
