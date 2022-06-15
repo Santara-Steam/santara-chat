@@ -9,7 +9,9 @@ use App\Http\Controllers\API\RoleAPIController;
 use App\Http\Controllers\API\SocialAuthAPIController;
 use App\Http\Controllers\API\UserAPIController;
 use App\Http\Controllers\SsoController;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +24,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//Route::post('/sso', [SsoController::class, 'sso']);
+
+Route::post('/test', function (){
+    $a = request()->header();
+
+    $user = User::where("email", '=', $a["email"])->first();
+    $check = Hash::check($a['pass'][0], $user->password);
+    return ["user" => $user, "check" => $check];
+});
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

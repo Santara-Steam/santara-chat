@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App;
 use App\Events\UpdatesEvent;
 use App\Exceptions\ApiOperationFailedException;
+use App\Helper\Auth;
 use App\Models\ArchivedUser;
 use App\Models\BlockedUser;
 use App\Models\ChatRequestModel;
@@ -21,7 +22,6 @@ use App\Models\SocialAccount;
 use App\Models\User;
 use App\Models\UserStatus;
 use App\Traits\ImageTrait;
-use Auth;
 use Carbon\Carbon;
 use DB;
 use Exception;
@@ -130,13 +130,13 @@ class UserRepository extends BaseRepository
             $unreadCount = GroupMessageRecipient::whereNull('read_at')
                 ->orderBy('conversation_id', 'asc')
                 ->where('group_id', $id)
-                ->where('user_id', Auth::id())
+                ->where('user_id', Auth::ID())
                 ->count();
 
             $firstUnreadMessage = GroupMessageRecipient::whereNull('read_at')
                 ->orderBy('conversation_id', 'asc')
                 ->where('group_id', $id)
-                ->where('user_id', Auth::id())
+                ->where('user_id', Auth::ID())
                 ->first(['conversation_id', 'id']);
 
             $limit = ($unreadCount == 0) ? 100 : $limit;
@@ -146,7 +146,7 @@ class UserRepository extends BaseRepository
                     $firstUnreadMessage->conversation_id)
                     ->orderBy('conversation_id', 'desc')
                     ->where('group_id', $id)
-                    ->where('user_id', Auth::id())
+                    ->where('user_id', Auth::ID())
                     ->limit(50)
                     ->offset(20)
                     ->first(['conversation_id']);

@@ -19,4 +19,9 @@ class Auth
     public static function User(){
         return User::find(self::ID());
     }
+
+    public static function check(): bool
+    {
+        return (bool) self::User();
+    }
 }

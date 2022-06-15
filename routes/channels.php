@@ -11,7 +11,9 @@
 |
 */
 
+use App\Helper\Auth;
 use App\Models\Group;
+use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('chat', function () {
     return Auth::check();

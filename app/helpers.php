@@ -1,5 +1,6 @@
 <?php
 
+use App\Helper\Auth;
 use App\Models\Conversation;
 use App\Models\Setting;
 use App\Models\User;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\HigherOrderBuilderProxy;
  */
 function getLoggedInUserId()
 {
-    return Auth::id();
+    return Auth::ID();
 }
 
 /**
@@ -29,7 +30,7 @@ function getUserLanguages()
  */
 function getCurrentLanguageName()
 {
-    return User::whereId(Auth::id())->first()->language;
+    return User::whereId(Auth::ID())->first()->language;
 }
 
 /**
@@ -37,7 +38,7 @@ function getCurrentLanguageName()
  */
 function getLoggedInUser()
 {
-    return Auth::user();
+    return Auth::User();
 }
 
 function detectURL($url)

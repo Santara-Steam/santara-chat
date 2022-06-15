@@ -15,3 +15,5 @@ window.Echo = new Echo({
         },
     },
 });
+
+console.log("asss", $('meta[name="csrf-token"]').attr('content'))

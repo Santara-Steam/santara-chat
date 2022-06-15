@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BroadcastController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MeetingController;
@@ -31,6 +32,15 @@ use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::group(["middleware" => ['web']], function ($router) {
+    $router->match(
+        ['get', 'post'], '/broadcasting/auth',
+        '\\'.BroadcastController::class.'@authenticate'
+    )->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+});
+
 
 Route::get('/', function () {
     if (\App\Helper\Auth::User()) {
