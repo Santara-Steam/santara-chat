@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Schema;
 
@@ -26,7 +27,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        
+        if(env('APP_ENV') !== 'local')
+        {
+            URL::forceScheme('https');
+        }
 
 //        \Illuminate\Pagination\Paginator::useBootstrap();
 
