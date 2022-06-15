@@ -13,7 +13,14 @@
 
 use App\Helper\Auth;
 use App\Models\Group;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\URL;
+
+if (!App::environment('local')) {
+    URL::forceScheme('https');
+}
+
 
 Broadcast::channel('chat', function () {
     return Auth::check();

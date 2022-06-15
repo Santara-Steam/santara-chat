@@ -11,8 +11,10 @@ use App\Http\Controllers\API\UserAPIController;
 use App\Http\Controllers\SsoController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+if (!App::environment('local')) {
+    URL::forceScheme('https');
+}
+
 
 Route::post('/test', function (){
     $a = request()->header();

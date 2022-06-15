@@ -15,10 +15,12 @@ use App\Models\User;
 use Database\Seeders\CreatePermissionSeeder;
 use Database\Seeders\SetIsDefaultSuperAdminSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
@@ -33,6 +35,9 @@ use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 |
 */
 
+if (!App::environment('local')) {
+    URL::forceScheme('https');
+}
 
 Route::group(["middleware" => ['web']], function ($router) {
     $router->match(
