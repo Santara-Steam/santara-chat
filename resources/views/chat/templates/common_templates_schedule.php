@@ -1,7 +1,7 @@
 <script id="tmplChatSendArea" type="text/x-jsrender">
 <div class="chat__area-text">
     <div class="w-100 flex-1 chat__area-form ">
-        <input type="text" id="textMessage" class="txtMessage" placeholder="Type message...">
+        <!-- <input type="text" id="textMessage" class="txtMessage" placeholder="Type message..."> -->
     </div>
     <div class="flex-1 d-flex chat__area-btn-group" id="chat__area-btn-group">
         
@@ -11,9 +11,9 @@
                 data-bs-toggle="modal">
             <i class="fa fa-paperclip" aria-hidden="true"></i>
         </button> -->
-        <button type="button" id="btnSend" class="btn chat__area-send-btn chat__area-send-btn--disable">
+        <!-- <button type="button" id="btnSend" class="btn chat__area-send-btn chat__area-send-btn--disable">
             <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-        </button>
+        </button> -->
     </div>
 </div>
 
