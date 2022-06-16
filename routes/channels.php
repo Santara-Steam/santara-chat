@@ -21,7 +21,6 @@ if (!App::environment('local')) {
     URL::forceScheme('https');
 }
 
-
 Broadcast::channel('chat', function () {
     return Auth::check();
 });

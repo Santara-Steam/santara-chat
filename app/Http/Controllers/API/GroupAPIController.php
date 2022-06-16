@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exceptions\NotFoundException;
+use App\Exceptions\UnauthorizedException;
+use App\Helper\AuthApi;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateGroupRequest;
 use App\Models\Group;
@@ -63,21 +66,32 @@ class GroupAPIController extends AppBaseController
         return $this->sendResponse($group, 'Group retrieved successfully.');
     }
 
+
     /**
-     * @param  CreateGroupRequest  $request
+     * @throws UnauthorizedException
+     * @throws NotFoundException
      *
-     * @return JsonResponse
+     * @attributes [
+     *      name,
+     *      description,
+     *      group_type,
+     *      privacy,
+     *      created_by,
+     *      photo_url,
+     *
+     *      users (array of members)
+     * ]
      */
-    public function create(CreateGroupRequest $request)
+    public function create(Request $request)
     {
-        if (! Auth::user()->hasRole('Admin') && ! canMemberAddGroup()) {
+        if (! AuthApi::user()->hasRole('Admin') && ! canMemberAddGroup()) {
             return $this->sendError('Sorry, you can not create group.');
         }
 
         $input = $request->all();
         $input['group_type'] = ($input['group_type'] == '1') ? Group::TYPE_OPEN : Group::TYPE_CLOSE;
         $input['privacy'] = ($input['privacy'] == '1') ? Group::PRIVACY_PUBLIC : Group::PRIVACY_PRIVATE;
-        $input['created_by'] = getLoggedInUserId();
+        $input['created_by'] = AuthApi::getAuthID();
 
         $group = $this->groupRepository->store($input);
         $group->append('group_created_by');

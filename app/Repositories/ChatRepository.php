@@ -5,6 +5,9 @@ namespace App\Repositories;
 use App\Events\GroupEvent;
 use App\Events\UserEvent;
 use App\Exceptions\ApiOperationFailedException;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\UnauthorizedException;
+use App\Helper\AuthApi;
 use App\Jobs\SendOneSignalPushJob;
 use App\Models\ArchivedUser;
 use App\Models\ChatRequestModel;
@@ -296,7 +299,7 @@ class ChatRepository extends BaseRepository
     public function groupMessageValidations($groupUsers)
     {
         // If user is removed/leave from group, then her can not able to send message in group
-        if (! in_array(getLoggedInUserId(), $groupUsers)) {
+        if (! in_array(AuthApi::getAuthID(), $groupUsers)) {
             throw new UnprocessableEntityHttpException('Only active member of this group can send message.');
         }
 
@@ -320,7 +323,9 @@ class ChatRepository extends BaseRepository
         /** @var $conversation Conversation */
         $conversation = $this->create($input)->fresh();
         $conversation->sender;
+
         $broadcastData = $this->prepareGroupChatBroadCastData($conversation->toArray(), $group->toArray());
+
         if (! empty($conversation->reply_to)) {
             $broadcastData['reply_message']['id'] = $conversation->replyMessage->id;
             $broadcastData['reply_message']['message'] = $conversation->replyMessage->message;
@@ -385,16 +390,15 @@ class ChatRepository extends BaseRepository
         }
     }
 
+
     /**
-     * @param  array  $conversation
-     * @param  array  $group
-     *
-     * @return mixed
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function prepareGroupChatBroadCastData($conversation, $group)
     {
         $groupInfo = $group;
-        $senderInfo = Auth::user();
+        $senderInfo = AuthApi::user();
 
         // Remove Unused Information
         unset($conversation['sender']);

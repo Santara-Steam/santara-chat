@@ -59,4 +59,14 @@ class VerifyToken
         return false;
     }
 
+    /**
+     * @throws UnauthorizedException
+     */
+    public static function APICheck()
+    {
+        if (!request()->expectsJson()) {
+            throw new UnauthorizedException();
+        }
+    }
+
 }

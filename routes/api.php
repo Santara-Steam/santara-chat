@@ -1,5 +1,7 @@
 <?php
 
+use App\Helper\AuthApi;
+use App\Helper\VerifyToken;
 use App\Http\Controllers\API\AdminUsersAPIController;
 use App\Http\Controllers\API\AuthAPIController;
 use App\Http\Controllers\API\ChatAPIController;
@@ -31,14 +33,16 @@ if (!App::environment('local')) {
     URL::forceScheme('https');
 }
 
+Route::group(['middleware' => ['api']], function () {
 
-Route::post('/test', function (){
-    $a = request()->header();
+    /** create group **/
+    Route::post('groups', [GroupAPIController::class, 'create'])->name('create-group');
 
-    $user = User::where("email", '=', $a["email"])->first();
-    $check = Hash::check($a['pass'][0], $user->password);
-    return ["user" => $user, "check" => $check];
+    Route::post('/test', function (){
+        $user = AuthApi::user()->hasRole('Admin');
+    });
 });
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -73,8 +77,6 @@ Route::group(['middleware' => ['auth:api', 'user.activated']], function () {
     /** Update Web-push */
     Route::put('update-web-notifications', [UserAPIController::class, 'updateNotification']);
 
-    /** create group **/
-    Route::post('groups', [GroupAPIController::class, 'create'])->name('create-group');
     /** Social Login */
     Route::post('social-login/{provider}', [SocialAuthAPIController::class, 'socialLogin'])->middleware('web');
 });

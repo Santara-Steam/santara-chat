@@ -6,6 +6,8 @@ use App\Events\AddedToGroupEvent;
 use App\Events\GroupCreated;
 use App\Events\GroupEvent;
 use App\Events\UserEvent;
+use App\Helper\Auth;
+use App\Helper\AuthApi;
 use App\Models\Conversation;
 use App\Models\Group;
 use App\Models\GroupMessageRecipient;
@@ -14,7 +16,6 @@ use App\Models\LastConversation;
 use App\Models\User;
 use App\Traits\ImageTrait;
 use Arr;
-use Auth;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -73,15 +74,20 @@ class GroupRepository extends BaseRepository
     public function store($input)
     {
         try {
-            if (! empty($input['photo'])) {
-                $input['photo_url'] = ImageTrait::makeImage($input['photo'], Group::$PATH);
+//            if (! empty($input['photo'])) {
+//                $input['photo_url'] = ImageTrait::makeImage($input['photo'], Group::$PATH);
+//            }
+            $groupExist = Group::where('emiten_id', '=', $input['emiten_id'])->first();
+
+            if ($groupExist) {
+                return $groupExist;
             }
 
             /** @var Group $group */
             $group = Group::create($input);
 
             $users = $input['users'];
-            $users[] = getLoggedInUserId();
+            $users[] = AuthApi::getAuthID();
             $this->addMembersToGroup($group, $users, false);
 
             $userIds = $group->fresh()->users->pluck('id')->toArray();
@@ -90,7 +96,7 @@ class GroupRepository extends BaseRepository
 
             $msgInput = [
                 'to_id'        => $group->id,
-                'message'      => Auth::user()->name.' created group "'.$group->name.'"',
+                'message'      => AuthApi::user()->name.' created group "'.$group->name.'"',
                 'is_group'     => true,
                 'message_type' => Conversation::MESSAGE_TYPE_BADGES,
             ];
@@ -180,7 +186,7 @@ class GroupRepository extends BaseRepository
             GroupUser::create([
                 'user_id'  => $user->id,
                 'group_id' => $group->id,
-                'added_by' => getLoggedInUserId(),
+                'added_by' => AuthApi::getAuthID(),
                 'role'     => $group->created_by == $user->id ? GroupUser::ROLE_ADMIN : GroupUser::ROLE_MEMBER,
             ]);
 
@@ -197,7 +203,7 @@ class GroupRepository extends BaseRepository
         $newUserNames = substr($newUserNames, 0, strlen($newUserNames) - 2);
         $msgInput = [
             'to_id'        => $group->id,
-            'message'      => Auth::user()->name." added : $newUserNames",
+            'message'      => AuthApi::user()->name." added : $newUserNames",
             'is_group'     => true,
             'message_type' => Conversation::MESSAGE_TYPE_BADGES,
             'add_members'  => true,

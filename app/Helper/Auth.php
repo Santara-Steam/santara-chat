@@ -24,4 +24,5 @@ class Auth
     {
         return (bool) self::User();
     }
+
 }

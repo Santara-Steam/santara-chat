@@ -73,7 +73,7 @@ class Group extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'photo_url', 'group_type', 'privacy', 'created_by',
+        'name', 'description', 'photo_url', 'group_type', 'privacy', 'created_by', 'emiten_id'
     ];
 
     public static $PATH = 'groups';
@@ -115,6 +115,7 @@ class Group extends Model
         'photo_url'   => 'string',
         'group_type'  => 'integer',
         'privacy'     => 'integer',
+        'emiten_id' => 'integer',
         'created_at'  => 'datetime',
         'updated_at'  => 'datetime',
     ];

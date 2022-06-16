@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helper\AuthApi;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Schema;
