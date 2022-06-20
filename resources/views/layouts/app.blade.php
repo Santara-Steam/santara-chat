@@ -103,20 +103,20 @@
                 <div class="dropdown-header text-center dropdown-text">
                     <strong>{{ __('messages.account') }}</strong>
                 </div>
-                <a class="dropdown-item" href="{{ url('/profile') }}">
+                {{-- <a class="dropdown-item" href="{{ url('/profile') }}">
                     <i class="fa fa-user"></i>{{ __('messages.edit_profile') }}</a>
                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i
-                            class="fa fa-lock"></i>{{ __('messages.change_password') }}</a>
+                            class="fa fa-lock"></i>{{ __('messages.change_password') }}</a> --}}
                 @if(session('impersonated_by'))
                     <a class="dropdown-item" href="{{ route('impersonate.userLogout') }}">
                         <i class="fa fa-external-link"></i>{{ __('messages.back_to_admin') }}</a>
                 @endif
                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#setCustomStatusModal">
                     <i class="fa fa-smile-o"></i>{{ __('messages.set_custom_status') }}</a>
-                <a class="dropdown-item" class="btn btn-default btn-flat"
+                {{-- <a class="dropdown-item" class="btn btn-default btn-flat"
                    onclick="event.preventDefault(); localStorage.clear();  document.getElementById('logout-form').submit();">
                     <i class="fa fa-sign-out"></i>{{ __('messages.logout') }}
-                </a>
+                </a> --}}
                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                 </form>
