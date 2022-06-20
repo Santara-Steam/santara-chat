@@ -6,3 +6,5 @@
     4. Run `php artisan key:genrate`
     5. Run `php artisan migrate`
     6. Run `npm run dev`
+
+readme
