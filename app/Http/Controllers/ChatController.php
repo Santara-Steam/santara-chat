@@ -102,6 +102,7 @@ class ChatController extends AppBaseController
             $data["portofolio"] = ['data'];
         }
 
+
         return view('chat.index')->with($data);
     }
 }
