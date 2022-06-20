@@ -80,7 +80,7 @@
                 </a>
             </div>
         </li>
-        <li class="dropdown language-menu no-hover me-3">
+        {{-- <li class="dropdown language-menu no-hover me-3">
             <a href="#" class="dropdown-toggle text-success text-decoration-none"
                data-bs-toggle="dropdown" role="button">
                 {{ strtoupper(\App\Helper\Internationalization::getCurrentLanguageName()) }}&nbsp;
@@ -92,7 +92,7 @@
                                                    data-prefix-value="{{ $key }}">{{ $value }}</a></span>
                 @endforeach
             </div>
-        </li>
+        </li> --}}
         <li class="nav-item dropdown">
             <a class="nav-link avatar-name" style="margin-right: 10px" data-bs-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">
