@@ -80,7 +80,7 @@
                 </a>
             </div>
         </li>
-        <li class="dropdown language-menu no-hover me-3">
+        {{-- <li class="dropdown language-menu no-hover me-3">
             <a href="#" class="dropdown-toggle text-success text-decoration-none"
                data-bs-toggle="dropdown" role="button">
                 {{ strtoupper(\App\Helper\Internationalization::getCurrentLanguageName()) }}&nbsp;
@@ -92,7 +92,7 @@
                                                    data-prefix-value="{{ $key }}">{{ $value }}</a></span>
                 @endforeach
             </div>
-        </li>
+        </li> --}}
         <li class="nav-item dropdown">
             <a class="nav-link avatar-name" style="margin-right: 10px" data-bs-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">
@@ -103,20 +103,20 @@
                 <div class="dropdown-header text-center dropdown-text">
                     <strong>{{ __('messages.account') }}</strong>
                 </div>
-                <a class="dropdown-item" href="{{ url('/profile') }}">
+                {{-- <a class="dropdown-item" href="{{ url('/profile') }}">
                     <i class="fa fa-user"></i>{{ __('messages.edit_profile') }}</a>
                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i
-                            class="fa fa-lock"></i>{{ __('messages.change_password') }}</a>
+                            class="fa fa-lock"></i>{{ __('messages.change_password') }}</a> --}}
                 @if(session('impersonated_by'))
                     <a class="dropdown-item" href="{{ route('impersonate.userLogout') }}">
                         <i class="fa fa-external-link"></i>{{ __('messages.back_to_admin') }}</a>
                 @endif
                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#setCustomStatusModal">
                     <i class="fa fa-smile-o"></i>{{ __('messages.set_custom_status') }}</a>
-                <a class="dropdown-item" class="btn btn-default btn-flat"
+                {{-- <a class="dropdown-item" class="btn btn-default btn-flat"
                    onclick="event.preventDefault(); localStorage.clear();  document.getElementById('logout-form').submit();">
                     <i class="fa fa-sign-out"></i>{{ __('messages.logout') }}
-                </a>
+                </a> --}}
                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                 </form>

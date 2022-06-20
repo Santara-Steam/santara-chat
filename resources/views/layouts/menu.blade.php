@@ -1,11 +1,11 @@
-@can('manage_conversations')
+{{-- @can('manage_conversations') --}}
 <li class="nav-item {{ Request::is('conversations*') ? 'active' : '' }}">
     <a class="nav-link {{ Request::is('conversations*') ? 'active' : '' }}" href="{{ url('conversations')  }}">
         <i class="fa fa-commenting nav-icon me-4"></i>
         <span>{{ __('messages.conversations') }}</span>
     </a>
 </li>
-@endcan
+{{-- @endcan --}}
 @can('manage_users')
     <li class="nav-item {{ Request::is('users*') ? 'active' : '' }}">
         <a class="nav-link {{ Request::is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
