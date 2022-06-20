@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\Auth;
 use App\Models\Group;
+use App\Models\GroupUser;
 use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\BlockUserRepository;
@@ -76,6 +77,23 @@ class ChatController extends AppBaseController
                     if (!in_array(Auth::ID(), $gc->toArray())) {
                         $groupChat->users()->attach(Auth::ID(), ['added_by' => 1]);
                     }
+                }
+            }
+
+            $groupUsers = GroupUser::whereUserId(Auth::ID())->get()
+                ->map(function ($value){
+                    return $value->group->emiten_id;
+                })->toArray();
+
+            $diffGroup = array_diff($groupUsers, $response['emitenIds']);
+
+            foreach ($diffGroup as $groupID) {
+                $userGroup = GroupUser::whereHas('group', function ($query) use ($groupID){
+                    return $query->where('emiten_id', $groupID);
+                })->where('user_id', Auth::ID())->first();
+
+                if ($userGroup) {
+                    $userGroup->delete();
                 }
             }
         }

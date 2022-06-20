@@ -63,7 +63,7 @@ class GroupUser extends Model
      */
     protected $casts = [
         'id'         => 'integer',
-        'group_id'   => 'integer',
+        'group_id'   => 'string',
         'user_id'    => 'integer',
         'added_by'   => 'integer',
         'removed_by'   => 'integer',
@@ -79,7 +79,7 @@ class GroupUser extends Model
      * @var array
      */
     public static $rules = [
-        'group_id'   => 'required|integer',
+        'group_id'   => 'required|string',
         'user_id'    => 'required|integer',
         'is_removed' => 'nullable|integer',
     ];
@@ -90,5 +90,10 @@ class GroupUser extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 }
