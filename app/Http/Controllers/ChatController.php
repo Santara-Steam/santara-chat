@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\Auth;
+use App\Models\Group;
 use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\BlockUserRepository;
@@ -59,6 +60,25 @@ class ChatController extends AppBaseController
         $baseUrl = env('SANTARA_API_BASE_URL');
         $response = Http::get($baseUrl . "/ownPortofolio", 'userId=' . Auth::ID())->body();
         $response = json_decode($response, true);
+
+        if (!empty($response['emitenIds'])) {
+            foreach ($response['emitenIds'] as $emitenId) {
+                $groupChat = Group::where('emiten_id', '=', $emitenId)->first();
+
+                /**
+                 * @var Group $groupChat
+                 */
+                if ($groupChat) {
+                    $gc = $groupChat->users->map(function ($value) {
+                        return $value->id;
+                    });
+
+                    if (!in_array(Auth::ID(), $gc->toArray())) {
+                        $groupChat->users()->attach(Auth::ID(), ['added_by' => 1]);
+                    }
+                }
+            }
+        }
 
         if (!empty($response['data'])) {
             $data["portofolio"] = ['data'];
