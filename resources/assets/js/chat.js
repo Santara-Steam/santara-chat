@@ -1718,12 +1718,14 @@ $(document).ready(function () {
             getDraftMessage: getDraftMessage,
         };
 
+         
         let data = {
             showStatus: showStatus,
             showUserStatus: showUserStatus,
             contactId: contactId,
             contact: contact,
             contactDetail: contactDetail,
+            photo: contactDetail.photo_url.replace('https://devchat.santara.co.id/uploads/groups/','').split(","),
             is_online: (!contact.is_group) ? contact.user.is_online : 0,
         };
 
