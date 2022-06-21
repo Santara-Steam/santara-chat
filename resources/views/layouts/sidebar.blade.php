@@ -1,7 +1,7 @@
 <div class="sidebar" style="background-color: #1c1c28">
     <nav class="sidebar-nav">
         <div class="d-flex align-items-center justify-content-between mb-3 overflow-hidden sidebar-inner-header">
-            <a class="navbar-brand d-flex align-items-center" href="https://santara.co.id/">
+            <a class="navbar-brand d-flex align-items-center" href="https://dev3.santara.co.id/user">
                 <img class="navbar-brand-minimized me-4" src="https://santara.co.id/public/assets/images/logo-newsantara-ai-putih-merah-l-1-27@2x.png" width="auto" alt="Santara Logo"
                      height="30" alt="{{config('app.name')}}">
                 <span class="d-flex">
