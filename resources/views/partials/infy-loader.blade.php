@@ -20,11 +20,12 @@
     opacity: .6;
   }
 </style> --}}
-<div style="position: fixed;
+{{-- <div style="position: fixed;
 left: 0px;
 top: 0px;
 width: 100%;
 height: 100%;
 z-index: 9999;
 background: url('https://santara.co.id/public/assets/images/loader.gif') 50% 50% no-repeat rgb(249, 249, 249);
-opacity: .6;"></div>
+opacity: .6;"></div> --}}
+<img src="https://santara.co.id/public/assets/images/loader.gif" class="img-fluid" alt="">
