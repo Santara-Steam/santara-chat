@@ -1990,9 +1990,10 @@ $(document).ready(function () {
       contactId: contactId,
       contact: contact,
       contactDetail: contactDetail,
+      photo: contactDetail.photo_url.replace(/^.+?groups/g, '').split(','),
       is_online: !contact.is_group ? contact.user.is_online : 0
     };
-    console.log('contactDetail', contactDetail);
+    console.log('contactDetail', data.photo[0]);
     var contactElementHtml = template.render(data, helpers);
 
     if (contact.unread_count > 0) {
