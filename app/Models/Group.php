@@ -176,7 +176,8 @@ class Group extends Model
     public function getPhotoUrlAttribute($value)
     {
         if (! empty($this->getRawOriginal('photo_url'))) {
-            return $this->imageUrl(self::$PATH.DIRECTORY_SEPARATOR.$this->getRawOriginal('photo_url'));
+            $exploded = explode(',', $this->getRawOriginal('photo_url'));
+            return "https://storage.googleapis.com/asset-santara-staging/santara.co.id/token/" . $exploded[0];
         }
 
         return asset('assets/images/group-img.png');

@@ -4,7 +4,7 @@
             <div class="position-relative chat__person-box-status-wrapper">
                 {{if !contact.is_group && showStatus}}<div class="chat__person-box-status {{if is_online}} chat__person-box-status--online {{else}} chat__person-box-status--offline{{/if}}"></div>{{/if}}
                 <div class="chat__person-box-avtar chat__person-box-avtar--active">
-                    <img src="https://storage.googleapis.com/asset-santara-staging/santara.co.id/token{{:photo[0]}}" alt="<?php __('messages.person_image') ?>"
+                    <img src="{{:contactDetail.photo_url}}" alt="<?php __('messages.person_image') ?>"
                          class="user-avatar-img">
                 </div>
             </div>
