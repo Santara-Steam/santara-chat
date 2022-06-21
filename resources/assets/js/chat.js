@@ -1718,6 +1718,7 @@ $(document).ready(function () {
             getDraftMessage: getDraftMessage,
         };
 
+        console.log('contactDetail', contact)
 
         let data = {
             showStatus: showStatus,
@@ -1725,11 +1726,8 @@ $(document).ready(function () {
             contactId: contactId,
             contact: contact,
             contactDetail: contactDetail,
-            photo: contactDetail.photo_url.split(','),
             is_online: (!contact.is_group) ? contact.user.is_online : 0,
         };
-
-        console.log('contactDetail', data.contactDetail)
 
         let contactElementHtml = template.render(data, helpers);
 

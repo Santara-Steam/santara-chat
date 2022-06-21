@@ -9,8 +9,10 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\BlockUserRepository;
 use App\Repositories\UserRepository;
+use GuzzleHttp\Client;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
@@ -58,11 +60,13 @@ class ChatController extends AppBaseController
             $data['notification_sound'] = app(Setting::class)->getNotificationSound($setting['notification_sound']);
         }
 
-        $baseUrl = env('SANTARA_API_BASE_URL');
-        $response = Http::get($baseUrl . "/ownPortofolio", 'userId=' . Auth::ID())->body();
-        $response = json_decode($response, true);
+//        $baseUrl = env('SANTARA_API_BASE_URL');
+//        $response = Http::get($baseUrl . "/ownPortofolio", 'userId=' . Auth::ID())->body();
+//        $response = json_decode($response, true);
 
-        if (!empty($response['emitenIds'])) {
+        $response = $this->getApiPortofolio();
+
+        if (isset($response['emitenIds'])) {
             foreach ($response['emitenIds'] as $emitenId) {
                 $groupChat = Group::where('emiten_id', '=', $emitenId)->first();
 
@@ -103,5 +107,40 @@ class ChatController extends AppBaseController
         }
 
         return view('chat.index')->with($data);
+    }
+
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function getApiPortofolio(): ?array
+    {
+        $client = new Client();
+
+        $session = session()->get('session');
+
+        if ($session) {
+            $headers = [
+                'Authorization' => 'Bearer ' .$session['token'],
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json'
+            ];
+        }
+
+        $responseToken = $client->request('GET', 'https://tulabi.com:3801' . '/v3.7.1/portofolio/?category=' , [
+            'headers' => $headers,
+        ]);
+
+        if ($responseToken->getStatusCode() == 200) {
+            $tokens = json_decode($responseToken->getBody()->getContents(), TRUE);
+            $mapped = array_map(function ($value) {
+                return $value['id'];
+            }, $tokens['data']);
+
+            return ["emitenIds" => $mapped];
+        }
+
+        return null;
     }
 }
