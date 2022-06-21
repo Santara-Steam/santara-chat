@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\AuthHelper;
 use App\Models\Conversation;
 use App\Models\Group;
 use App\Repositories\ChatRepository;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class syncGroup extends Command
 {
@@ -64,28 +66,22 @@ class syncGroup extends Command
 
             if (!$groupExist) {
                 $this->info("Creating group with emiten ID [". $emiten->id . "] ...");
-                $db->table('groups')
-                    ->insert([
-                        "id" => $emiten->id,
-                        "name" => $emiten->company_name,
-                        "description" => $emiten->trademark,
-                        "photo_url" => $emiten->pictures,
-                        "emiten_id" => $emiten->id,
-                        "privacy" => 2,
-                        "group_type" => 2,
-                        "created_by" => 1,
-                        "created_at" => now()->format('Y-m-d H:i:s'),
-                        "updated_at" => now()->format('Y-m-d H:i:s')
-                    ]);
-                $this->info("group created");
-                $db->table('conversations')->insert([
-                    'to_type' => Group::class,
-                    'to_id' => $emiten->id,
-                    'message' => "Group created...",
-                    'message_type' => Conversation::MESSAGE_TYPE_BADGES,
-                    "created_at" => now()->format('Y-m-d H:i:s'),
-                    "updated_at" => now()->format('Y-m-d H:i:s')
-                ]);
+                $response = Http::withHeaders([
+                    "Content-Type" => "application/json",
+                    "Accept" => "application/json",
+                    "email" => "admin@gmail.com",
+                    "password" => "12345678",
+                ])->post('http://localhost:8888/api/groups', [
+                    "name" => $emiten->company_name,
+                    "description" => $emiten->trademark,
+                    "group_type" => 2, //closed group
+                    "privacy" => 1,
+                    "photo_url" => $emiten->pictures,
+                    "users" => [1],
+                    "emiten_id" => $emiten->id
+                ])->json();
+                $this->info("group created successfully");
+
 
             } else {
                 $this->warn("groups with emiten ID [" . $emiten->id . "] already exist, skipped...");

@@ -2,3 +2,4 @@
 /storage/*.key
 storage/logs
 .idea
+storage/framework/cache
