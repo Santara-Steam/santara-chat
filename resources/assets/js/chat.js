@@ -1718,13 +1718,15 @@ $(document).ready(function () {
             getDraftMessage: getDraftMessage,
         };
 
+        var base_url = env('APP_URL');
+         
         let data = {
             showStatus: showStatus,
             showUserStatus: showUserStatus,
             contactId: contactId,
             contact: contact,
             contactDetail: contactDetail,
-            photo: contactDetail.photo_url.replace('https://devchat.santara.co.id/uploads/groups/',''),
+            photo: contactDetail.photo_url.replace(base_url+'/uploads/groups/',''),
             is_online: (!contact.is_group) ? contact.user.is_online : 0,
         };
         let contactElementHtml = template.render(data, helpers);
