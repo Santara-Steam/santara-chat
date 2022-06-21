@@ -1724,6 +1724,7 @@ $(document).ready(function () {
             contactId: contactId,
             contact: contact,
             contactDetail: contactDetail,
+            photo: contactDetail.photo_url.replace('^.+?groups',''),
             is_online: (!contact.is_group) ? contact.user.is_online : 0,
         };
         let contactElementHtml = template.render(data, helpers);
