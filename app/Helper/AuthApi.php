@@ -15,14 +15,14 @@ class AuthApi
      */
     public static function user()
     {
-        $header = request()->header();
+        $header = session()->all();
 
-        if (!array_key_exists('email', $header) || !array_key_exists('password', $header)) {
+        if (!array_key_exists('email', $header) || !array_key_exists('auth', $header)) {
             throw new NotFoundException('Email & password header must be filled');
         }
 
-        $user = User::where("email", '=', $header["email"][0])->first();
-        $check = Hash::check($header['password'][0], $user->password);
+        $user = User::where("email", '=', $header["email"])->first();
+        $check = Hash::check($header['auth'], $user->password);
 
         if (!$check) {
              throw new NotFoundException('User not found');

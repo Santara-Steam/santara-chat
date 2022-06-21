@@ -1,2 +1,4 @@
 .env
 /storage/*.key
+storage/logs
+.idea

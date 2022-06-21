@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Conversation;
+use App\Models\Group;
+use App\Repositories\ChatRepository;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -20,14 +23,16 @@ class syncGroup extends Command
      * @var string
      */
     protected $description = 'Command description';
+    private $chatRepository;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ChatRepository $chatRepository)
     {
+        $this->chatRepository = $chatRepository;
         parent::__construct();
     }
 
@@ -73,6 +78,15 @@ class syncGroup extends Command
                         "updated_at" => now()->format('Y-m-d H:i:s')
                     ]);
                 $this->info("group created");
+                $db->table('conversations')->insert([
+                    'to_type' => Group::class,
+                    'to_id' => $emiten->id,
+                    'message' => "Group created...",
+                    'message_type' => Conversation::MESSAGE_TYPE_BADGES,
+                    "created_at" => now()->format('Y-m-d H:i:s'),
+                    "updated_at" => now()->format('Y-m-d H:i:s')
+                ]);
+
             } else {
                 $this->warn("groups with emiten ID [" . $emiten->id . "] already exist, skipped...");
             }
