@@ -132,8 +132,8 @@
        <a href="#" class='btn btn-danger btn-delete-group' data-group-id="{{:id}}"><?php echo trans('messages.group.delete_group') ?></a>
     </div>
     {{else !removed_from_group}}
-    <div class="chat-profile__column pt-1">
+    <!-- <div class="chat-profile__column pt-1">
        <a href="#" class='btn btn-danger btn-leave-from-group' data-group-id="{{:id}}"><?php echo trans('messages.group.leave_group') ?></a>
-    </div>
+    </div> -->
     {{/if}}
 </script>

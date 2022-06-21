@@ -23,7 +23,7 @@
             <div class="chat__person-box-msg-time">
                 <div class="chat__person-box-time">{{:~getLocalDate(contact.created_at)}}</div>
                 <div class="chat__person-box-count {{if contact.unread_count <= 0}} d-none {{/if}}">{{:contact.unread_count}}</div>
-                <div class="dropdown msgDropdown">
+                <!-- <div class="dropdown msgDropdown">
                     <div class="chat-item-menu action-dropdown text-end pe-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-ellipsis-v hide-ele text-logo-color"></i>
                     </div>
@@ -35,7 +35,7 @@
                             <?php echo __('messages.chats.archive_chat') ?>
                         </a>
                    </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
