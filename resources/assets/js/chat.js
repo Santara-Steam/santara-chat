@@ -1726,6 +1726,9 @@ $(document).ready(function () {
             contactDetail: contactDetail,
             is_online: (!contact.is_group) ? contact.user.is_online : 0,
         };
+
+        console.log('contactDetail', contactDetail)
+
         let contactElementHtml = template.render(data, helpers);
 
         if (contact.unread_count > 0) {
@@ -2771,7 +2774,7 @@ $(document).ready(function () {
     };
 
     window.imageRenderer = function (message) {
-        
+
         return `<a href="${message}" data-ybox-group="group2" class="yBox"> <img src="${message}"></a>`
 
         // return `<a href="${message}" data-fancybox="gallery" data-toggle="lightbox" data-gallery="example-gallery" data-src="${message}"><img src="${message}"></a>`

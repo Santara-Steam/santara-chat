@@ -1992,6 +1992,7 @@ $(document).ready(function () {
       contactDetail: contactDetail,
       is_online: !contact.is_group ? contact.user.is_online : 0
     };
+    console.log('contactDetail', contactDetail);
     var contactElementHtml = template.render(data, helpers);
 
     if (contact.unread_count > 0) {
