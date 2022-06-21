@@ -1718,7 +1718,7 @@ $(document).ready(function () {
             getDraftMessage: getDraftMessage,
         };
 
-        var base_url = env('APP_URL');
+        var base_url = "{{env('APP_URL')}}";
          
         let data = {
             showStatus: showStatus,
