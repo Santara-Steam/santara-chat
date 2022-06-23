@@ -135,9 +135,9 @@ class ChatAPIController extends AppBaseController
     public function deleteMessage(Conversation $conversation, Request $request)
     {
         $deleteMessageTime = config('configurable.delete_message_time');
-        if ($conversation->time_from_now_in_min > $deleteMessageTime) {
-            return $this->sendError('You can not delete message older than '.$deleteMessageTime.' minutes.', 422);
-        }
+//        if ($conversation->time_from_now_in_min > $deleteMessageTime) {
+//            return $this->sendError('You can not delete message older than '.$deleteMessageTime.' minutes.', 422);
+//        }
 
         if ($conversation->from_id != getLoggedInUserId()) {
             return $this->sendError('You can not delete this message.', 403);
@@ -171,12 +171,14 @@ class ChatAPIController extends AppBaseController
     public function deleteMessageForEveryone(Conversation $conversation, Request $request)
     {
         $deleteMessageTime = config('configurable.delete_message_for_everyone_time');
-        if ($conversation->time_from_now_in_min > $deleteMessageTime) {
-            return $this->sendError('You can not delete message older than '.$deleteMessageTime.' minutes.', 422);
-        }
+//        if ($conversation->time_from_now_in_min > $deleteMessageTime) {
+//            return $this->sendError('You can not delete message older than '.$deleteMessageTime.' minutes.', 422);
+//        }
 
-        if ($conversation->from_id != getLoggedInUserId()) {
-            return $this->sendError('You can not delete this message.', 403);
+        if (!\App\Helper\Auth::User()->isAdmin()) {
+            if ($conversation->from_id != getLoggedInUserId()) {
+                return $this->sendError('You can not delete this message.', 403);
+            }
         }
 
         $conversation->delete();

@@ -184,6 +184,7 @@ background-color: #1c1c28;color:white
     let notifications = JSON.parse(JSON.stringify({!! json_encode(getNotifications()) !!}));
     let loggedInUserId = '{{\App\Helper\Auth::ID()}}';
     let loggedInUserStatus = '{!! \App\Helper\Auth::user()->userStatus !!}';
+    let loggedInUserAdmin = '{!! \App\Helper\Auth::user()->isAdmin() ? "Admin" : "Member" !!}';
     if (loggedInUserStatus != '') {
         loggedInUserStatus = JSON.parse(JSON.stringify({!! \App\Helper\Auth::user()->userStatus !!}));
     }

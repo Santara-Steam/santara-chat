@@ -2085,13 +2085,13 @@ $(document).ready(function () {
 
         let allowToDelete = true;
         let deleteMsgForEveryone = true;
-        if (data.time_from_now_in_min > messageDeleteTime) {
-            allowToDelete = false;
-        }
+        // if (data.time_from_now_in_min > messageDeleteTime) {
+        //     allowToDelete = false;
+        // }
 
-        if (data.time_from_now_in_min > deleteMsgForEveryone) {
-            deleteMsgForEveryone = false;
-        }
+        // if (data.time_from_now_in_min > deleteMsgForEveryone) {
+        //     deleteMsgForEveryone = false;
+        // }
 
         let templateData = {};
         let helpers = {
@@ -2102,6 +2102,7 @@ $(document).ready(function () {
         templateData.data = data;
         templateData.isReceiver = isReceiver;
         templateData.loggedInUserId = loggedInUserId
+        templateData.loggedInUserAdmin = loggedInUserAdmin
         templateData.checkShowNameChat = checkShowNameChat
         templateData.authImage = $.parseHTML(authImgURL)[0].data
         templateData.authUserName = authUserName;
@@ -2110,7 +2111,7 @@ $(document).ready(function () {
         templateData.readUnread = readUnread;
         templateData.allowToDelete = allowToDelete;
         templateData.deleteMsgForEveryone = deleteMsgForEveryone;
-
+        console.log("is admin", loggedInUserAdmin)
         return timeLineEle + template.render(templateData, helpers);
     };
 

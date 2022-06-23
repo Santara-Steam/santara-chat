@@ -376,4 +376,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(ReportedUser::class, 'reported_to')->where('reported_by', '=', Auth::id());
     }
+
+    public function isAdmin() {
+        return $this->roles()->where('name', 'Admin')->exists();
+    }
+
 }

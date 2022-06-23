@@ -59,6 +59,9 @@
                 <i class="fa fa-ellipsis-v " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </i>
                 <div class="dropdown-menu">
+                    {{if loggedInUserAdmin == 'Admin'}}
+                        <a class="dropdown-item msg-delete-for-everyone" href="#">Delete For Everyone</a>
+                    {{/if}}
                     <a class="dropdown-item msg-replay" href="#" data-self-reply="0" data-message-id="{{:data.id}}" data-message='{{:data.message}}' data-sender="{{:data.sender.name}}" data-user-id="{{:data.sender.id}}" data-message-type='{{:data.message_type}}'>Reply</a>
                 </div>
             </div>
