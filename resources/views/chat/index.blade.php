@@ -207,13 +207,15 @@ use Carbon\Carbon;
     @include('chat.templates.contact_template')
     @include('chat.templates.conversations_list')
 
-    @if (\App\Helper\Auth::User()->is_super_admin == 0)
+    @include('chat.templates.common_templates')
+
+    <!-- @if (\App\Helper\Auth::User()->is_super_admin == 0)
         @if (Carbon::now()->format('l') === 'Tuesday' || Carbon::now()->format('l') === 'Thursday')
             @include('chat.templates.common_templates')
         @else
             @include('chat.templates.common_templates_schedule')
         @endif
-    @else
+    @else -->
     @include('chat.templates.common_templates_admin')
     @endif
 
