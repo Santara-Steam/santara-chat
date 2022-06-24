@@ -20,7 +20,7 @@
 @section('content')
 {{-- {{\App\Helper\Auth::User()->role}} --}}
 {{-- @dump(\App\Helper\Auth::User()->is_super_admin) --}}
-<?php 
+<?php
 use Carbon\Carbon;
 ?>
 {{-- @dump(Carbon::now()->format('l')) --}}
@@ -207,18 +207,14 @@ use Carbon\Carbon;
     @include('chat.templates.contact_template')
     @include('chat.templates.conversations_list')
 
-    @include('chat.templates.common_templates')
+{{--    @include('chat.templates.common_templates')--}}
 
-    <!-- @if (\App\Helper\Auth::User()->is_super_admin == 0)
-        @if (Carbon::now()->format('l') === 'Tuesday' || Carbon::now()->format('l') === 'Thursday')
-            @include('chat.templates.common_templates')
-        @else
-            @include('chat.templates.common_templates_schedule')
-        @endif
-    @else -->
-    @include('chat.templates.common_templates_admin')
+    @if (\App\Helper\Auth::User()->isAdmin())
+        @include('chat.templates.common_templates_admin')
+    @else
+        @include('chat.templates.common_templates')
     @endif
-
+{{--@include('chat.templates.common_templates_admin')--}}
     @include('chat.templates.my_contacts_listing')
     @include('chat.templates.conversation-request')
     @include('chat.copyImageModal')
