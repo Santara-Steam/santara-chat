@@ -56,7 +56,7 @@ Route::get('/', function () {
 
 Route::get('/authorize', [SsoController::class, 'authorizes']);
 Route::get('/grant-access', function (){
-    return redirect()->away(env('SANTARA_BASE_URL') . '/user/grant-access');
+    return redirect()->away(env('SANTARA_BASE_URL') . '/grant-access');
 });
 
 //Auth::routes();
