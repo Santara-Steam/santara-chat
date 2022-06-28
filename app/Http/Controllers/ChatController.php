@@ -60,10 +60,6 @@ class ChatController extends AppBaseController
             $data['notification_sound'] = app(Setting::class)->getNotificationSound($setting['notification_sound']);
         }
 
-//        $baseUrl = env('SANTARA_API_BASE_URL');
-//        $response = Http::get($baseUrl . "/ownPortofolio", 'userId=' . Auth::ID())->body();
-//        $response = json_decode($response, true);
-
         $response = $this->getApiPortofolio();
 
         if (isset($response['emitenIds'])) {

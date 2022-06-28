@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\ImageTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Str;
 
 /**
@@ -218,5 +219,12 @@ class Group extends Model
     public function lastConversations()
     {
         return $this->hasMany(LastConversation::class, 'group_id', 'id');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query
+            ->where('is_active', 0)
+            ->whereDate('created_at' , '<=', Carbon::today()->subDays( 5 ));
     }
 }

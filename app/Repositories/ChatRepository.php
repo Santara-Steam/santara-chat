@@ -104,7 +104,9 @@ class ChatRepository extends BaseRepository
             $groupSubQuery = Conversation::leftJoin('message_action as ma', function (JoinClause $join) use ($authId) {
                 $join->on('ma.deleted_by', '=', DB::raw("$authId"));
                 $join->on('ma.conversation_id', '=', 'conversations.id');
-            });
+            })->leftJoin('groups', function (JoinClause $join) {
+                $join->on('groups.id', '=', 'conversations.to_id');
+            })->where('groups.is_active', '=', 1);
             if (! $isArchived) {
                 $groupSubQuery->has('archiveConversation', '=', 0);
             }
