@@ -25,4 +25,14 @@ class Auth
         return (bool) self::User();
     }
 
+    public static function role()
+    {
+        return self::User()->roles;
+    }
+
+    public static function isAdmin()
+    {
+        return self::User()->isAdmin();
+    }
+
 }

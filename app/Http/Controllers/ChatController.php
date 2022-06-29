@@ -60,43 +60,69 @@ class ChatController extends AppBaseController
             $data['notification_sound'] = app(Setting::class)->getNotificationSound($setting['notification_sound']);
         }
 
-        $response = $this->getApiPortofolio();
+        if (!Auth::isAdmin()) {
+            $response = $this->getApiPortofolio();
 
-        if (isset($response['emitenIds'])) {
-            foreach ($response['emitenIds'] as $emitenId) {
-                $groupChat = Group::where('emiten_id', '=', $emitenId)->first();
+            if (isset($response['emitenIds'])) {
+                foreach ($response['emitenIds'] as $emitenId) {
+                    $groupChat = Group::where('emiten_id', '=', $emitenId)->first();
 
-                /**
-                 * @var Group $groupChat
-                 */
-                if ($groupChat) {
-                    $gc = $groupChat->users->map(function ($value) {
-                        return $value->id;
-                    });
+                    /**
+                     * @var Group $groupChat
+                     */
+                    if ($groupChat) {
+                        $gc = $groupChat->users->map(function ($value) {
+                            return $value->id;
+                        });
 
-                    if (!in_array(Auth::ID(), $gc->toArray())) {
-                        $groupChat->users()->attach(Auth::ID(), ['added_by' => 1]);
+                        if (!in_array(Auth::ID(), $gc->toArray())) {
+                            $groupChat->users()->attach(Auth::ID(), ['added_by' => 1]);
+                        }
+                    }
+                }
+
+                $groupUsers = GroupUser::whereUserId(Auth::ID())->get()
+                    ->map(function ($value){
+                        return $value->group->emiten_id;
+                    })->toArray();
+
+                $diffGroup = array_diff($groupUsers, $response['emitenIds']);
+
+                foreach ($diffGroup as $groupID) {
+                    $userGroup = GroupUser::whereHas('group', function ($query) use ($groupID){
+                        return $query->where('emiten_id', $groupID);
+                    })->where('user_id', Auth::ID())->first();
+
+                    if ($userGroup) {
+                        $userGroup->delete();
                     }
                 }
             }
+        } else {
 
-            $groupUsers = GroupUser::whereUserId(Auth::ID())->get()
-                ->map(function ($value){
-                    return $value->group->emiten_id;
-                })->toArray();
+            $response = $this->getApiAdminEmitens();
 
-            $diffGroup = array_diff($groupUsers, $response['emitenIds']);
+            if (isset($response['emitenIds'])) {
+                foreach ($response['emitenIds'] as $emitenId) {
+                    $groupChat = Group::where('emiten_id', '=', $emitenId)->first();
 
-            foreach ($diffGroup as $groupID) {
-                $userGroup = GroupUser::whereHas('group', function ($query) use ($groupID){
-                    return $query->where('emiten_id', $groupID);
-                })->where('user_id', Auth::ID())->first();
+                    /**
+                     * @var Group $groupChat
+                     */
+                    if ($groupChat) {
+                        $gc = $groupChat->users->map(function ($value) {
+                            return $value->id;
+                        });
 
-                if ($userGroup) {
-                    $userGroup->delete();
+                        if (!in_array(Auth::ID(), $gc->toArray())) {
+                            $groupChat->users()->attach(Auth::ID(), ['added_by' => 1]);
+                        }
+                    }
                 }
             }
         }
+
+
 
         if (!empty($response['data'])) {
             $data["portofolio"] = ['data'];
@@ -137,6 +163,29 @@ class ChatController extends AppBaseController
             return ["emitenIds" => $mapped];
         }
 
+        return null;
+    }
+
+    public function getApiAdminEmitens()
+    {
+        $client = new Client();
+
+        $session = session()->get('session');
+
+        if ($session) {
+            $headers = [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json'
+            ];
+        }
+
+        $responseToken = $client->request('GET', env('SANTARA_API_BASE_URL') . '/admin-emiten' , [
+            'headers' => $headers,
+        ]);
+
+        if ($responseToken->getStatusCode() == 200) {
+            return json_decode($responseToken->getBody()->getContents(), TRUE);
+        }
         return null;
     }
 }
