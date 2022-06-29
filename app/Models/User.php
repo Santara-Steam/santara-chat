@@ -381,4 +381,9 @@ class User extends Authenticatable
         return $this->roles()->where('name', 'Admin')->exists();
     }
 
+    public function isTrader()
+    {
+        return (bool) $this->is_trader;
+    }
+
 }

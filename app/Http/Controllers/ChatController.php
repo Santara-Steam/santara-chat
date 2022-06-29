@@ -10,11 +10,14 @@ use App\Models\User;
 use App\Repositories\BlockUserRepository;
 use App\Repositories\UserRepository;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class ChatController
@@ -61,43 +64,69 @@ class ChatController extends AppBaseController
         }
 
         if (!Auth::isAdmin()) {
-            $response = $this->getApiPortofolio();
 
-            if (isset($response['emitenIds'])) {
-                foreach ($response['emitenIds'] as $emitenId) {
-                    $groupChat = Group::where('emiten_id', '=', $emitenId)->first();
+            if (Auth::isTrader()) {
+                $response = $this->getApiTraderEmitens();
 
-                    /**
-                     * @var Group $groupChat
-                     */
-                    if ($groupChat) {
-                        $gc = $groupChat->users->map(function ($value) {
-                            return $value->id;
-                        });
+                if (isset($response['emitenIds'])) {
+                    foreach ($response['emitenIds'] as $emitenId) {
+                        $groupChat = Group::where('emiten_id', '=', $emitenId)->first();
 
-                        if (!in_array(Auth::ID(), $gc->toArray())) {
-                            $groupChat->users()->attach(Auth::ID(), ['added_by' => 1]);
+                        /**
+                         * @var Group $groupChat
+                         */
+                        if ($groupChat) {
+                            $gc = $groupChat->users->map(function ($value) {
+                                return $value->id;
+                            });
+
+                            if (!in_array(Auth::ID(), $gc->toArray())) {
+                                $groupChat->users()->attach(Auth::ID(), ['added_by' => 1]);
+                            }
                         }
                     }
                 }
 
-                $groupUsers = GroupUser::whereUserId(Auth::ID())->get()
-                    ->map(function ($value){
-                        return $value->group->emiten_id;
-                    })->toArray();
+            } else {
+                $response = $this->getApiPortofolio();
 
-                $diffGroup = array_diff($groupUsers, $response['emitenIds']);
+                if (isset($response['emitenIds'])) {
+                    foreach ($response['emitenIds'] as $emitenId) {
+                        $groupChat = Group::where('emiten_id', '=', $emitenId)->first();
 
-                foreach ($diffGroup as $groupID) {
-                    $userGroup = GroupUser::whereHas('group', function ($query) use ($groupID){
-                        return $query->where('emiten_id', $groupID);
-                    })->where('user_id', Auth::ID())->first();
+                        /**
+                         * @var Group $groupChat
+                         */
+                        if ($groupChat) {
+                            $gc = $groupChat->users->map(function ($value) {
+                                return $value->id;
+                            });
 
-                    if ($userGroup) {
-                        $userGroup->delete();
+                            if (!in_array(Auth::ID(), $gc->toArray())) {
+                                $groupChat->users()->attach(Auth::ID(), ['added_by' => 1]);
+                            }
+                        }
+                    }
+
+                    $groupUsers = GroupUser::whereUserId(Auth::ID())->get()
+                        ->map(function ($value){
+                            return $value->group->emiten_id;
+                        })->toArray();
+
+                    $diffGroup = array_diff($groupUsers, $response['emitenIds']);
+
+                    foreach ($diffGroup as $groupID) {
+                        $userGroup = GroupUser::whereHas('group', function ($query) use ($groupID){
+                            return $query->where('emiten_id', $groupID);
+                        })->where('user_id', Auth::ID())->first();
+
+                        if ($userGroup) {
+                            $userGroup->delete();
+                        }
                     }
                 }
             }
+
         } else {
 
             $response = $this->getApiAdminEmitens();
@@ -122,8 +151,6 @@ class ChatController extends AppBaseController
             }
         }
 
-
-
         if (!empty($response['data'])) {
             $data["portofolio"] = ['data'];
         }
@@ -132,44 +159,73 @@ class ChatController extends AppBaseController
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws GuzzleException
+     * @throws NotFoundExceptionInterface
      */
     public function getApiPortofolio(): ?array
     {
-        $client = new Client();
-
         $session = session()->get('session');
 
-        if ($session) {
-            $headers = [
-                'Authorization' => 'Bearer ' .$session['token'],
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json'
-            ];
-        }
+        $header = [
+            'Authorization' => 'Bearer ' .$session['token'],
+        ];
 
-        $responseToken = $client->request('GET', 'https://tulabi.com:3801' . '/v3.7.1/portofolio/?category=' , [
-            'headers' => $headers,
-        ]);
+        $response = $this->httpClient(env('PORTOFOLIO_URL'), 'GET', $header);
 
-        if ($responseToken->getStatusCode() == 200) {
-            $tokens = json_decode($responseToken->getBody()->getContents(), TRUE);
+        if(isset($response['data'])) {
             $mapped = array_map(function ($value) {
                 return $value['id'];
-            }, $tokens['data']);
+            }, $response['data']);
 
             return ["emitenIds" => $mapped];
         }
 
-        return null;
+        return $response;
     }
 
+    /**
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws GuzzleException
+     */
     public function getApiAdminEmitens()
     {
-        $client = new Client();
+        return $this->httpClient(env('SANTARA_API_BASE_URL') . "/admin-emiten");
+    }
 
+    /**
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws GuzzleException
+     */
+    public function getApiTraderEmitens()
+    {
+        $header = [
+            "userId" => Auth::ID()
+        ];
+
+        $response = $this->httpClient(env('SANTARA_API_BASE_URL') . "/trader-emiten", 'GET', $header);
+
+        if(isset($response['emitenIds'])) {
+            $mapped = array_map(function ($value) {
+                return $value['id'];
+            }, $response['emitenIds']);
+
+            return ["emitenIds" => $mapped];
+        }
+
+        return $response;
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws GuzzleException
+     */
+    private function httpClient($url, $method = "GET", $header = null)
+    {
+        $client = new Client();
         $session = session()->get('session');
 
         if ($session) {
@@ -177,9 +233,13 @@ class ChatController extends AppBaseController
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json'
             ];
+
+            if ($header != null) {
+                $headers = array_merge($headers, $header);
+            }
         }
 
-        $responseToken = $client->request('GET', env('SANTARA_API_BASE_URL') . '/admin-emiten' , [
+        $responseToken = $client->request($method, $url , [
             'headers' => $headers,
         ]);
 

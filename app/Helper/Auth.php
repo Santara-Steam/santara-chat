@@ -35,4 +35,9 @@ class Auth
         return self::User()->isAdmin();
     }
 
+    public static function isTrader()
+    {
+        return self::User()->isTrader();
+    }
+
 }
