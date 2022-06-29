@@ -217,6 +217,64 @@ class GroupRepository extends BaseRepository
 
         return [$newAddedUsers, $conversation];
     }
+    
+    public function memberJoinToGroup($group, $users, $fireEvent = true)
+    {
+        $groupUsers = $group->users->pluck('id')->toArray();
+        $newAddedUsers = [];
+        $newUserNames = '';
+
+        $userRecords = User::whereIn('id', $users)->get()->keyBy('id');
+        GroupUser::withTrashed()->whereIn('user_id', $users)->where('group_id', $group->id)->forceDelete();
+        LastConversation::whereIn('user_id', $users)->where('group_id', $group->id)->delete();
+
+        foreach ($users as $userId) {
+            if (in_array($userId, $groupUsers)) { // if already in group
+                continue;
+            }
+
+            if (! isset($userRecords[$userId])) {
+                continue;
+            }
+            /** @var User $user */
+            $user = $userRecords[$userId];
+            $newAddedUsers[] = $user->toArray();
+            $newUserNames .= $user->name.', ';
+
+            GroupUser::create([
+                'user_id'  => $user->id,
+                'group_id' => $group->id,
+                'added_by' => 0,
+                'role'     => $group->created_by == $user->id ? GroupUser::ROLE_ADMIN : GroupUser::ROLE_MEMBER,
+            ]);
+
+            if ($fireEvent) {
+                $broadCastData = $this->prepareDataForMemberAddedToGroup($group);
+                broadcast(new UserEvent($broadCastData, $user->id))->toOthers();
+            }
+        }
+
+        if (! $fireEvent) {
+            return;
+        }
+
+        $newUserNames = substr($newUserNames, 0, strlen($newUserNames) - 2);
+        $msgInput = [
+            'to_id'        => $group->id,
+            'message'      => "$newUserNames has joined the group",
+            'is_group'     => true,
+            'message_type' => Conversation::MESSAGE_TYPE_BADGES,
+            'add_members'  => true,
+        ];
+        $conversation = $this->sendMessage($msgInput);
+
+        $broadcastData = $this->prepareDataBroadcastWhenGroupUpdated(
+            ['group' => $group, 'users' => $newAddedUsers], Group::GROUP_NEW_MEMBERS_ADDED
+        );
+        broadcast(new GroupEvent($broadcastData))->toOthers();
+
+        return [$newAddedUsers, $conversation];
+    }
 
     /**
      * @param  Group  $group

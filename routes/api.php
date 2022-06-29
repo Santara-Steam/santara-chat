@@ -37,6 +37,7 @@ Route::group(['middleware' => ['api']], function () {
 
     /** create group **/
     Route::post('groups', [GroupAPIController::class, 'create'])->name('create-group');
+    Route::post('memberJoin/{group}', [GroupAPIController::class, 'memberJoin'])->name('memberJoin');
 
     Route::post('/test', function (){
         $user = AuthApi::user()->hasRole('Admin');
