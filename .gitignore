@@ -2,4 +2,5 @@
 /storage/*.key
 storage/logs
 .idea
+.htaccess
 storage/framework/cache
