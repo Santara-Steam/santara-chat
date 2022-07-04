@@ -244,7 +244,7 @@ class GroupRepository extends BaseRepository
             GroupUser::create([
                 'user_id'  => $user->id,
                 'group_id' => $group->id,
-                'added_by' => 0,
+                'added_by' => env('ADMIN_ID'),
                 'role'     => $group->created_by == $user->id ? GroupUser::ROLE_ADMIN : GroupUser::ROLE_MEMBER,
             ]);
 
