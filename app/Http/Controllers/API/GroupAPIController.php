@@ -143,13 +143,28 @@ class GroupAPIController extends AppBaseController
             return $this->sendError('Only admin user can add members to the group');
         }
         $users = $request->get('members');
-
         /** @var User $addedMembers */
         list($addedMembers, $conversation) = $this->groupRepository->addMembersToGroup($group, $users);
         $group = $group->toArray();
         $group['users'] = $addedMembers;
 
         return $this->sendResponse(['group' => $group, 'conversation' => $conversation], 'Members added successfully.');
+    }
+
+    public function memberJoin(Group $group, Request $request)
+    {
+        // if ($group->privacy == Group::PRIVACY_PRIVATE ) {
+        //     return $this->sendError('Closed privacy group, can`t join the group');
+        // }
+        $users = $request->get('members');
+
+        /** @var User $addedMembers */
+        list($addedMembers, $conversation) = $this->groupRepository->memberJoinToGroup($group, $users);
+        $group = $group->toArray();
+        $group['users'] = $addedMembers;
+
+        return $this->sendResponse(['group' => $group, 'conversation' => $conversation], 'Member join successfully.');
+        // return $this->sendResponse($group,'oke');
     }
 
     /**

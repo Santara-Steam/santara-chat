@@ -51,7 +51,7 @@ Route::get('/', function () {
     if (\App\Helper\Auth::User()) {
         return redirect('/conversations');
     }
-    return view('home.index');
+    return redirect()->to(env('SANTARA_BASE_URL'));
 })->name('home');
 
 Route::get('/authorize', [SsoController::class, 'authorizes']);

@@ -1,6 +1,6 @@
 <script id="tmplChatSendArea" type="text/x-jsrender">
-<div class="chat__area-text">
-    <div class="w-100 flex-1 chat__area-form ">
+<div class="chat__area-text" style="padding-left: 20px;padding-right: 68px;">
+    <div class="w-80 flex-1 chat__area-form ">
         <input type="text" id="textMessage" class="txtMessage" placeholder="Type message...">
     </div>
     <div class="flex-1 d-flex chat__area-btn-group" id="chat__area-btn-group">
