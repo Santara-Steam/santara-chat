@@ -153,9 +153,9 @@ class GroupAPIController extends AppBaseController
 
     public function memberJoin(Group $group, Request $request)
     {
-        if ($group->privacy == Group::PRIVACY_PRIVATE ) {
-            return $this->sendError('Closed privacy group, can`t join the group');
-        }
+        // if ($group->privacy == Group::PRIVACY_PRIVATE ) {
+        //     return $this->sendError('Closed privacy group, can`t join the group');
+        // }
         $users = $request->get('members');
 
         /** @var User $addedMembers */
