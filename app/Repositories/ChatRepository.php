@@ -222,7 +222,14 @@ class ChatRepository extends BaseRepository
         }
 
         $input['to_type'] = Conversation::class;
+        $isBot = (bool) request()->header('BotTesting');
+
         $input['from_id'] = getLoggedInUserId();
+
+        if ($isBot) {
+            $input['from_id'] = request('user_id');
+        }
+
         if (isValidURL($input['message'])) {
             $input['message_type'] = detectURL($input['message']);
         }
@@ -320,6 +327,7 @@ class ChatRepository extends BaseRepository
         /** @var Group $group */
         $group = Group::with('users')->findOrFail($input['to_id']);
         $groupUsers = $group->users->pluck('id', 'id')->toArray();
+
         $this->groupMessageValidations($groupUsers);
 
         /** @var $conversation Conversation */

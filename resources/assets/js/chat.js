@@ -1300,7 +1300,8 @@ $(document).ready(function () {
             moveConversationFromArchiveToActiveChat();
             showNoArchiveConversationEle();
         }
-
+        console.log("reqData", reqData);
+        console.log("routeAjax", route('conversations.store'));
         $.ajax({
             type: 'POST',
             url: route('conversations.store'),

@@ -20,6 +20,8 @@ class SendMessage
     public function handle($request, Closure $next)
     {
         $input = $request->all();
+
+//        throw new UnprocessableEntityHttpException(json_encode(request()->all()));
         if (isset($input['is_group']) && $input['is_group'] == 1) {
             return $next($request);
         }

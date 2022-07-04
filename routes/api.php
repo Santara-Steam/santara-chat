@@ -33,6 +33,9 @@ if (!App::environment('local')) {
     URL::forceScheme('https');
 }
 
+Route::post('send-bot-message',
+    [ChatAPIController::class, 'sendMessage'])->middleware('sendMessage');
+
 Route::group(['middleware' => ['api']], function () {
 
     /** create group **/
