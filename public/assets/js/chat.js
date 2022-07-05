@@ -2600,7 +2600,7 @@ $(document).ready(function () {
       getMessageByItsTypeForChatList: getMessageByItsTypeForChatList,
       getLocalDate: getLocalDate
     };
-    console.log(profilePic);
+    console.log("tes"+profilePic);
     return template.render({
       id: userId,
       name: name,
