@@ -19,7 +19,7 @@ define('LARAVEL_START', microtime(true));
 if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
     require __DIR__.'/../storage/framework/maintenance.php';
 }
-
+set_time_limit(800);
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
