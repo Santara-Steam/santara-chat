@@ -121,7 +121,7 @@ class ChatController extends AppBaseController
                         })->where('user_id', Auth::ID())->first();
 
                         if ($userGroup) {
-                            $userGroup->delete();
+                            $userGroup->forceDelete();
                         }
                     }
                 }
