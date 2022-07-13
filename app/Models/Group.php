@@ -178,7 +178,7 @@ class Group extends Model
     {
         if (! empty($this->getRawOriginal('photo_url'))) {
             $exploded = explode(',', $this->getRawOriginal('photo_url'));
-            return "https://storage.googleapis.com/asset-santara-staging/santara.co.id/token/" . $exploded[0];
+            return env('STORAGE_GOOGLE'). $exploded[0];
         }
 
         return asset('assets/images/group-img.png');
