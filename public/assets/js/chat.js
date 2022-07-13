@@ -2600,7 +2600,6 @@ $(document).ready(function () {
       getMessageByItsTypeForChatList: getMessageByItsTypeForChatList,
       getLocalDate: getLocalDate
     };
-    console.log("tes"+profilePic);
     return template.render({
       id: userId,
       name: name,
@@ -2612,7 +2611,6 @@ $(document).ready(function () {
     }, helpers);
   };
 
-  
   window.makeUserOnlineOffline = function (ele, status) {
     if (status) {
       ele.find('.chat__person-box-status').removeClass('chat__person-box-status--offline').addClass('chat__person-box-status--online');
@@ -3094,7 +3092,7 @@ $(document).ready(function () {
   };
 
   window.getCalenderFormatForTimeLine = function (dateTime) {
-    return moment(dateTime).utc(dateTime).local().calendar(null, {
+    return moment(dateTime).local().calendar(null, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
       lastWeek: 'dddd, MMM Do',

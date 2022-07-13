@@ -2903,7 +2903,7 @@ $(document).ready(function () {
     };
 
     window.getCalenderFormatForTimeLine = function (dateTime) {
-        return moment(dateTime).utc(dateTime).local().calendar(null, {
+        return moment(dateTime).local().calendar(null, {
             sameDay: '[Today]',
             lastDay: '[Yesterday]',
             lastWeek: 'dddd, MMM Do',
