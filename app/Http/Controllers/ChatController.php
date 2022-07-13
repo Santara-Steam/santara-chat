@@ -103,27 +103,27 @@ class ChatController extends AppBaseController
                             });
 
                             if (!in_array(Auth::ID(), $gc->toArray())) {
-                                $groupChat->users()->attach(Auth::ID(), ['added_by' => 1]);
+                                $groupChat->users()->attach(Auth::ID(), ['added_by' => 1,'owned_portfolio' => 1]);
                             }
                         }
                     }
 
-                    $groupUsers = GroupUser::whereUserId(Auth::ID())->get()
-                        ->map(function ($value){
-                            return $value->group->emiten_id;
-                        })->toArray();
+                    // $groupUsers = GroupUser::whereUserId(Auth::ID())->get()
+                    //     ->map(function ($value){
+                    //         return $value->group->emiten_id;
+                    //     })->toArray();
 
-                    $diffGroup = array_diff($groupUsers, $response['emitenIds']);
+                    // $diffGroup = array_diff($groupUsers, $response['emitenIds']);
 
-                    foreach ($diffGroup as $groupID) {
-                        $userGroup = GroupUser::whereHas('group', function ($query) use ($groupID){
-                            return $query->where('emiten_id', $groupID);
-                        })->where('user_id', Auth::ID())->first();
+                    // foreach ($diffGroup as $groupID) {
+                    //     $userGroup = GroupUser::whereHas('group', function ($query) use ($groupID){
+                    //         return $query->where('emiten_id', $groupID);
+                    //     })->where('user_id', Auth::ID())->first();
 
-                        if ($userGroup) {
-                            $userGroup->forceDelete();
-                        }
-                    }
+                    //     if ($userGroup) {
+                    //         $userGroup->forceDelete();
+                    //     }
+                    // }
                 }
             }
 

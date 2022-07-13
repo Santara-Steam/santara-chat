@@ -53,7 +53,7 @@ class GroupUser extends Model
      * @var array
      */
     protected $fillable = [
-        'group_id', 'user_id', 'added_by', 'role', 'removed_by', 'deleted_at',
+        'group_id', 'user_id', 'added_by', 'role', 'removed_by', 'deleted_at','owned_portfolio'
     ];
 
     /**
