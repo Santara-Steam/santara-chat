@@ -4687,12 +4687,7 @@ $(document).ready(function () {
                 $("#totalSaldo").html(result.saldo);
                 let total = "";
                 let emiten = "";
-
-                if (data.status != undefined) {
-                    if (data.status == false) {
-                        Swal.fire("Error!", data.error[0].message, "error");
-                    }
-                } else {
+                
                     if (data.data.length != 0) {
                         total += `<div class="col-xl-4 col-lg-4 col-12 text-center">
                     <div class="shadow mb-1" style="background-color: #BF2D30; border-radius:5px; border: 1px solid">
@@ -4700,9 +4695,9 @@ $(document).ready(function () {
                                 <div class="inner">
                                     <p style="color: white;">TOTAL SAHAM</p>
                                     <h3 style="color: white;">${formatRupiah(
-        data.total_saham,
-        "Rp"
-      )}</h3>
+                                    data.total_saham,
+                                    "Rp"
+                                )}</h3>
                                 </div>
                             </div>
                         </div>
@@ -4713,9 +4708,9 @@ $(document).ready(function () {
                                 <div class="inner">
                                     <p style="color: white;">TOTAL SUKUK</p>
                                     <h3 style="color: white;">${formatRupiah(
-        data.total_sukuk,
-        "Rp"
-      )}</h3>
+                                        data.total_sukuk,
+                                        "Rp"
+                                    )}</h3>
                                 </div>
                             </div>
                         </div>
@@ -4726,9 +4721,9 @@ $(document).ready(function () {
                                 <div class="inner">
                                     <p style="color: white;">TOTAL</p>
                                     <h3 style="color: white;">${formatRupiah(
-        data.total,
-        "Rp"
-      )}</h3>
+                                        data.total,
+                                        "Rp"
+                                    )}</h3>
                                 </div>
                             </div>
                         </div>
@@ -4744,16 +4739,13 @@ $(document).ready(function () {
                                     <div class="label-item-portoflio-saham">SAHAM</div>
                                 </div>
                                 <h4>${data.data[i].trademark}</h4>
-                                <p class="company-portofolio">${data.data[i].company_name
-            }</p>
+                                <p class="company-portofolio">${data.data[i].company_name}</p>
                             </div>
                             <div class="info-fund-portofolio">
                                 <table style="width: 100%;">
                                      <tr>
                                         <td class="title-intable-saham">Tanggal Pembelian</td>
-                                        <td class="value-intable-saham">${tanggalIndo(
-              data.data[i].trx_date
-            )}</td>
+                                        <td class="value-intable-saham">${tanggalIndo(data.data[i].trx_date)}</td>
                                     </tr>
                                     <tr>
                                         <td class="title-intable-saham">
@@ -4841,7 +4833,7 @@ $(document).ready(function () {
                         $("#emitenPortofolio").html("");
                     }
                     $("#portofolio").modal("show");
-                }
+                
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if (textStatus === "timeout" || textStatus === "error") {

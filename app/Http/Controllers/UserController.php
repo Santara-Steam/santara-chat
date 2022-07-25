@@ -318,7 +318,7 @@ class UserController extends AppBaseController
                 $tokens = json_decode($responseToken->getBody()->getContents(), TRUE);
                 echo json_encode(["token" => $tokens, "saldo" => $this->rupiahBiasa($saldo)]);
                 return;
-                // dd($tokens);
+                dd($tokens);
             }
         } catch (\Exception $exception) {
             echo json_encode($exception);
