@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="chat__person-box-detail">
-                            <h5 class="mb-1 chat__person-box-name contact-name">{{:name}}{{pivot.role}}
+                            <h5 class="mb-1 chat__person-box-name contact-name">{{:name}}{{:pivot.role}}
                             <span class="group-user-status">
                                 {{if ~checkUserStatusForGroupMember(user_status)}}
                                     <i class="nav-icon user-status-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="{{:user_status.status}}" data-original-title="{{:user_status.status}}">
