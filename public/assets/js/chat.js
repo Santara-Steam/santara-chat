@@ -4769,7 +4769,7 @@ $(document).ready(function () {
     var tanggal = date.getDate();
     var hari = date.getDay();
     var listHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "sabtu"];
-    listBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+    var listBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     return tanggal + " " + listBulan[bulan] + " " + tahun;
   }
 

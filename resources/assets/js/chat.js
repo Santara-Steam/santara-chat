@@ -4652,7 +4652,7 @@ $(document).ready(function () {
             "Jum'at",
             "sabtu",
         ];
-        listBulan = [
+        let listBulan = [
             "Januari",
             "Februari",
             "Maret",
