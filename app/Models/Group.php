@@ -140,7 +140,7 @@ class Group extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'group_users', 'group_id', 'user_id')->wherePivot('deleted_at', '=',
-            null)->withPivot(['role', 'deleted_at', 'created_at'])->orderByDesc('role')->orderBy('users.name', 'asc');
+            null)->withPivot(['role','owned_portfolio', 'deleted_at', 'created_at'])->orderByDesc('role')->orderBy('users.name', 'asc');
     }
 
     /**
