@@ -138,31 +138,4 @@
     </div> -->
     {{/if}}
 
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="portofolio" role="dialog"
-    aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id='namaHeader'></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card-content">
-                    <div class="row justify-content-end">
-                        <h3 class="mr-1"><i class="icon-wallet success"></i> <span id="totalSaldo"></span>
-                        </h3>
-                    </div>
-                    <div class="row mb-1" id="totalPortofolio">
-                    </div>
-                    <div class="row" id="emitenPortofolio">
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </script>
