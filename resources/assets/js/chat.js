@@ -4838,6 +4838,7 @@ $(document).ready(function () {
                         $("#emitenPortofolio").html("");
                     }
                     $("#portofolio").modal("show");
+                    e.stopPropagation();
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
