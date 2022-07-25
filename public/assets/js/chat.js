@@ -4781,7 +4781,7 @@ $(document).ready(function () {
       type: "GET",
       dataType: "json",
       beforeSend: function beforeSend() {
-        $("#namaHeader").html("Portofolio <b>".concat(name, "</b>"));
+        $("#namaHeader").html("Portofolio");
       },
       success: function success(result) {
         var data = result.token;

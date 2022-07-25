@@ -4676,7 +4676,7 @@ $(document).ready(function () {
             type: "GET",
             dataType: "json",
             beforeSend: function() {
-                $("#namaHeader").html(`Portofolio <b>${name}</b>`);
+                $("#namaHeader").html(`Portofolio`);
             },
             success: function(result) {
                 const data = result.token;
