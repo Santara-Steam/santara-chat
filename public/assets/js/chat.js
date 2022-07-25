@@ -4777,11 +4777,12 @@ $(document).ready(function () {
   $(document).on('click', '.portofolio-member-from-group', function (e) {
     var userid = $(this).data('member-id');
     $.ajax({
-      url: route('portofolio') + "/" + userid,
+      url: '{{ url(`/portofolio`) }}' + "/" + userid,
       type: "GET",
       dataType: "json",
       beforeSend: function beforeSend() {
         $("#namaHeader").html("Portofolio");
+        console.log(url);
       },
       success: function success(result) {
         var data = result.token;
