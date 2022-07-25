@@ -4669,8 +4669,10 @@ $(document).ready(function () {
         return tanggal + " " + listBulan[bulan] + " " + tahun;
     };
 
-    function portofolio(userid, name) {
-        var userid = $(this).data('member-id');
+    $(document).on('click', '.portofolio-member-from-group', function (e) {
+        e.preventDefault();
+        var userid = $(this).data('id');
+        var name = $(this).data('name');
         $.ajax({
             url: route('portofolio',userid),
             type: "GET",
@@ -4859,7 +4861,7 @@ $(document).ready(function () {
                 }
             },
         });
-    };
+    });
 
 });
 
