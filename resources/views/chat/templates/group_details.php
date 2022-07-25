@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="chat__person-box-detail">
-                            <h5 class="mb-1 chat__person-box-name contact-name">{{:name}}{{:pivot.owned_portfolio}}
+                            <h5 class="mb-1 chat__person-box-name contact-name">{{:name}}
                             <span class="group-user-status">
                                 {{if ~checkUserStatusForGroupMember(user_status)}}
                                     <i class="nav-icon user-status-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="{{:user_status.status}}" data-original-title="{{:user_status.status}}">
@@ -72,8 +72,11 @@
                                 {{/if}}
                             </span>
                             </h5>
-                             {{if pivot.role === 2}}
+                            {{if pivot.role === 2}}
                                 <span class="badge badge-pill badge-primary">{{if ~root.created_by === id}} Owner {{else}} Admin{{/if}}</span>
+                            {{/if}}
+                            {{if pivot.owned_portfolio === 1}}
+                                <span class="badge badge-pill badge-primary">Saham</span>
                             {{/if}}
                         </div>
                          {{if ~root.created_by !== id && ~root.my_role === 2 && ~root.logged_in_user_id != id && !~root.removed_from_group}}
