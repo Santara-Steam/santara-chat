@@ -429,7 +429,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id='namaHeader'></h5>
-                        <button type="button" class="close" data-dismiss="modal" onclick="$('#portofolio').modal('hide');" aria-label="Close">
+                        <button type="button" class="close" onclick="$('#portofolio').modal('hide');" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
