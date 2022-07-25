@@ -76,7 +76,7 @@
                                 <span class="badge badge-pill badge-primary">{{if ~root.created_by === id}} Owner {{else}} Admin{{/if}}</span>
                             {{/if}}
                             {{if pivot.owned_portfolio === 1}}
-                                <span class="badge badge-pill badge-warning">Saham</span>
+                                <span class="badge badge-pill badge-info">Pemilik Saham</span>
                             {{/if}}
                         </div>
                          {{if ~root.created_by !== id && ~root.my_role === 2 && ~root.logged_in_user_id != id && !~root.removed_from_group}}
