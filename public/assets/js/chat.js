@@ -4774,14 +4774,15 @@ $(document).ready(function () {
   }
 
   ;
-  $(document).on('click', '.portofolio-member-from-group', function (e) {
+
+  function portofolio(userid, name) {
     var userid = $(this).data('member-id');
     $.ajax({
       url: route('portofolio', userid),
       type: "GET",
       dataType: "json",
       beforeSend: function beforeSend() {
-        $("#namaHeader").html("Portofolio");
+        $("#namaHeader").html("Portofolio <b>".concat(name, "</b>"));
         console.log(url);
       },
       success: function success(result) {
@@ -4835,7 +4836,9 @@ $(document).ready(function () {
         }
       }
     });
-  });
+  }
+
+  ;
 }); //Dropzon code
 
 var myDropzone = '';

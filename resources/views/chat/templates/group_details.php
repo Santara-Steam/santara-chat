@@ -83,7 +83,7 @@
                                       <i class="fa fa-ellipsis-v group-details-bar" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                       </i>
                                       <div class="dropdown-menu member-options-{{:id}}">
-                                        <a class="dropdown-item portofolio-member-from-group" data-member-id="{{:id}}" >Portfolio Member {{:id}}</a>
+                                        <button type="button" onclick="portofolio('{{:id}}',\''{{:name}}'\')" class="dropdown-item portofolio-member-from-group" data-member-id="{{:id}}" >Portfolio Member {{:id}}</button>
                                         <a class="dropdown-item remove-member-from-group" href="#" data-member-id="{{:id}}" data-group-id="{{:~root.id}}" id="removeMember-{{:id}}">Remove Member</a>
                                        {{if pivot.role === 2}}
                                         <a class="dropdown-item dismiss-admin-member" href="#" data-member-id="{{:id}}" data-group-id="{{:~root.id}}" id="dismissAdmin-{{:id}}">Dismiss As Admin</a>

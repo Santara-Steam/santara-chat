@@ -4669,14 +4669,14 @@ $(document).ready(function () {
         return tanggal + " " + listBulan[bulan] + " " + tahun;
     };
 
-    $(document).on('click', '.portofolio-member-from-group', function (e) {
+    function portofolio(userid, name) {
         var userid = $(this).data('member-id');
         $.ajax({
             url: route('portofolio',userid),
             type: "GET",
             dataType: "json",
             beforeSend: function() {
-                $("#namaHeader").html(`Portofolio`);
+                $("#namaHeader").html(`Portofolio <b>${name}</b>`);
                 console.log(url);
             },
             success: function(result) {
@@ -4859,7 +4859,7 @@ $(document).ready(function () {
                 }
             },
         });
-    });
+    };
 
 });
 
