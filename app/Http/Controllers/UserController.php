@@ -309,7 +309,7 @@ class UserController extends AppBaseController
                 'Authorization' => 'Bearer ' . app('request')->session()->get('session')['token'],
             ];
 
-            $responseToken = $client->request('GET', 'https://tulabi.com:3701'.'/v3.7.1/'. 'finance-report/list-member-portofolio/?user_id=' . $userId, [
+            $responseToken = $client->request('GET', env('BASE_API').'/v3.7.1/'. 'finance-report/list-member-portofolio/?user_id=' . $userId, [
                 'headers' => $headers,
             ]);
 
@@ -318,7 +318,7 @@ class UserController extends AppBaseController
                 $tokens = json_decode($responseToken->getBody()->getContents(), TRUE);
                 echo json_encode(["token" => $tokens, "saldo" => $this->rupiahBiasa($saldo)]);
                 return;
-                dd($tokens);
+                // dd($tokens);
             }
         } catch (\Exception $exception) {
             echo json_encode($exception);
