@@ -4688,6 +4688,11 @@ $(document).ready(function () {
                 let total = "";
                 let emiten = "";
 
+                if (data) { 
+                    console.log('ok');
+                } else {
+                    console.log('sip');
+                }
                 
                     if (data.data.length != 0) {
                         total += `<div class="col-xl-4 col-lg-4 col-12 text-center">

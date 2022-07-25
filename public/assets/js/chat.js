@@ -4793,6 +4793,12 @@ $(document).ready(function () {
         var total = "";
         var emiten = "";
 
+        if (data) {
+          console.log('ok');
+        } else {
+          console.log('sip');
+        }
+
         if (data.data.length != 0) {
           total += "<div class=\"col-xl-4 col-lg-4 col-12 text-center\">\n                    <div class=\"shadow mb-1\" style=\"background-color: #BF2D30; border-radius:5px; border: 1px solid\">\n                            <div class=\"p-1 \">\n                                <div class=\"inner\">\n                                    <p style=\"color: white;\">TOTAL SAHAM</p>\n                                    <h3 style=\"color: white;\">".concat(formatRupiah(data.total_saham, "Rp"), "</h3>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-xl-4 col-lg-4 col-12 text-center\">\n                        <div class=\"shadow mb-1\" style=\"background-color: #C7971E; border-radius:5px; border: 1px solid\">\n                            <div class=\"p-1 \">\n                                <div class=\"inner\">\n                                    <p style=\"color: white;\">TOTAL SUKUK</p>\n                                    <h3 style=\"color: white;\">").concat(formatRupiah(data.total_sukuk, "Rp"), "</h3>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-xl-4 col-lg-4 col-12 text-center\">\n                        <div class=\"shadow mb-1\" style=\"background-color: #28d094; border-radius:5px; border: 1px solid\">\n                            <div class=\"p-1 \">\n                                <div class=\"inner\">\n                                    <p style=\"color: white;\">TOTAL</p>\n                                    <h3 style=\"color: white;\">").concat(formatRupiah(data.total, "Rp"), "</h3>\n                                </div>\n                            </div>\n                        </div>\n                    </div>");
 
