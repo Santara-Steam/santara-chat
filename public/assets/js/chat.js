@@ -4788,39 +4788,159 @@ $(document).ready(function () {
       },
       success: function success(result) {
         var data = result.token;
-        console.log(data);
+        console.log(data.status);
         $("#totalSaldo").html(result.saldo);
         var total = "";
-        var emiten = "";
-
-        if (data.status != undefined) {
-          if (data.status == false) {
-            // Swal.fire("Error!", data.error[0].message, "error");
-            // displayToastr('success', 'success', data.message);
-            displayToastr('Error', 'error', data.error[0].message);
-          }
-        } else {
-          if (data.data.length != 0) {
-            total += "<div class=\"col-xl-4 col-lg-4 col-12 text-center\">\n                    <div class=\"shadow mb-1\" style=\"background-color: #BF2D30; border-radius:5px; border: 1px solid\">\n                            <div class=\"p-1 \">\n                                <div class=\"inner\">\n                                    <p style=\"color: white;\">TOTAL SAHAM</p>\n                                    <h3 style=\"color: white;\">".concat(formatRupiah(data.total_saham, "Rp"), "</h3>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-xl-4 col-lg-4 col-12 text-center\">\n                        <div class=\"shadow mb-1\" style=\"background-color: #C7971E; border-radius:5px; border: 1px solid\">\n                            <div class=\"p-1 \">\n                                <div class=\"inner\">\n                                    <p style=\"color: white;\">TOTAL SUKUK</p>\n                                    <h3 style=\"color: white;\">").concat(formatRupiah(data.total_sukuk, "Rp"), "</h3>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-xl-4 col-lg-4 col-12 text-center\">\n                        <div class=\"shadow mb-1\" style=\"background-color: #28d094; border-radius:5px; border: 1px solid\">\n                            <div class=\"p-1 \">\n                                <div class=\"inner\">\n                                    <p style=\"color: white;\">TOTAL</p>\n                                    <h3 style=\"color: white;\">").concat(formatRupiah(data.total, "Rp"), "</h3>\n                                </div>\n                            </div>\n                        </div>\n                    </div>");
-
-            for (var i = 0; i < data.data.length; i++) {
-              if (data.data[i].type == "saham") {
-                emiten += "<div class=\"col-xl-6 col-lg-6 col-12\" style=\"margin-bottom: 1em;\">\n                        <div class=\"item-portofolio\">\n                            <div class=\"head-item-portofolio\">\n                                <div class=\"flex-head\">\n                                    <p>".concat(data.data[i].category, "</p>\n                                    <div class=\"label-item-portoflio-saham\">SAHAM</div>\n                                </div>\n                                <h4>").concat(data.data[i].trademark, "</h4>\n                                <p class=\"company-portofolio\">").concat(data.data[i].company_name, "</p>\n                            </div>\n                            <div class=\"info-fund-portofolio\">\n                                <table style=\"width: 100%;\">\n                                     <tr>\n                                        <td class=\"title-intable-saham\">Tanggal Pembelian</td>\n                                        <td class=\"value-intable-saham\">").concat(tanggalIndo(data.data[i].trx_date), "</td>\n                                    </tr>\n                                    <tr>\n                                        <td class=\"title-intable-saham\">\n                                            <p>Total Saham</p>\n                                        </td>\n                                        <td class=\"value-intable-saham\">\n                                            <p><b>").concat(formatNumber(data.data[i].jumlah_saham), " Lembar</b></p>\n                                        </td>\n                                    </tr>\n                                    <tr>\n                                        <td class=\"title-intable-saham\">Total Saham Dalam Rupiah</td>\n                                        <td class=\"value-intable-saham\"><b>").concat(formatRupiah(data.data[i].total_saham, "Rp"), "</b></td>\n                                    </tr>\n\n\n                                </table>\n                            </div>\n                        </div>\n                    </div>");
-              } else {
-                emiten = "<div class=\"col-xl-6 col-lg-6 col-12\" style=\"margin-bottom: 1em;\">\n                        <div class=\"item-portofolio-sukuk\">\n                            <div class=\"head-item-portofolio\" style=\"padding: 0;\">\n                                <div class=\"flex-head\">\n                                    <p class=\"company-sukuks\"><b>".concat(data.data[i].company_name, "</b></p>\n                                    <div class=\"label-item-portofolio-sukuk\">SUKUK</div>\n                                </div>\n                                <h4 class=\"title-sukuk-card\">").concat(data.data[i].trademark, "</h4>\n                                <p class=\"sukuk-id\">").concat(data.data[i].code, "</p>\n                            </div>\n                            <div class=\"sukuk-info\">\n                                <h4><b>Informasi Sukuk</b></h4>\n                                <hr style=\"border-top: 2px solid rgba(0, 0, 0, .1);\" />\n                                <table style=\"width: 100%;\">\n                                    <tr>\n                                        <td class=\"title-sukuk-in-table\">\n                                            <p>Sukuk ID</p>\n                                        </td>\n                                        <td class=\"value-sukuk-in-table\">\n                                            <p><b>").concat(data.data[i].code, "</b></p>\n                                        </td>\n                                    </tr>\n                                    <tr>\n                                        <td class=\"title-sukuk-in-table\">\n                                            <p>Total Unit Dalam Rupiah</p>\n                                        </td>\n                                        <td class=\"value-sukuk-in-table\">\n                                            <p><b>").concat(formatRupiah(data.data[i].total_sukuk, "Rp"), "</b></p>\n                                        </td>\n                                    </tr>\n                                    <tr>\n                                        <td class=\"title-sukuk-in-table\">\n                                            <p>Total Unit</p>\n                                        </td>\n                                        <td class=\"value-sukuk-in-table\">\n                                            <p><b>").concat(formatNumber(data.data[i].jumlah_sukuk), " Kupon</b></p>\n                                        </td>\n                                    </tr>\n                                </table>\n                            </div>\n                        </div>\n                    </div>");
-              }
-            }
-
-            $("#totalPortofolio").html(total);
-            $("#emitenPortofolio").html(emiten);
-          } else {
-            $("#totalPortofolio").html('<div class="col-12 text-center"><b>Data portofolio kosong</b></div>');
-            $("#emitenPortofolio").html("");
-          }
-
-          $("#portofolio").modal("show");
-          e.stopPropagation();
-        }
+        var emiten = ""; //     if (data.status != undefined) {
+        //         if (data.status == false) {
+        //             // Swal.fire("Error!", data.error[0].message, "error");
+        //             // displayToastr('success', 'success', data.message);
+        //             displayToastr('Error', 'error', data.error[0].message);
+        //         }
+        //     } else {
+        //         if (data.data.length != 0) {
+        //             total += `<div class="col-xl-4 col-lg-4 col-12 text-center">
+        //         <div class="shadow mb-1" style="background-color: #BF2D30; border-radius:5px; border: 1px solid">
+        //                 <div class="p-1 ">
+        //                     <div class="inner">
+        //                         <p style="color: white;">TOTAL SAHAM</p>
+        //                         <h3 style="color: white;">${formatRupiah(
+        //                         data.total_saham,
+        //                         "Rp"
+        //                     )}</h3>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //         <div class="col-xl-4 col-lg-4 col-12 text-center">
+        //             <div class="shadow mb-1" style="background-color: #C7971E; border-radius:5px; border: 1px solid">
+        //                 <div class="p-1 ">
+        //                     <div class="inner">
+        //                         <p style="color: white;">TOTAL SUKUK</p>
+        //                         <h3 style="color: white;">${formatRupiah(
+        //                             data.total_sukuk,
+        //                             "Rp"
+        //                         )}</h3>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //         <div class="col-xl-4 col-lg-4 col-12 text-center">
+        //             <div class="shadow mb-1" style="background-color: #28d094; border-radius:5px; border: 1px solid">
+        //                 <div class="p-1 ">
+        //                     <div class="inner">
+        //                         <p style="color: white;">TOTAL</p>
+        //                         <h3 style="color: white;">${formatRupiah(
+        //                             data.total,
+        //                             "Rp"
+        //                         )}</h3>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </div>`;
+        //             for (let i = 0; i < data.data.length; i++) {
+        //                 if (data.data[i].type == "saham") {
+        //                     emiten += `<div class="col-xl-6 col-lg-6 col-12" style="margin-bottom: 1em;">
+        //             <div class="item-portofolio">
+        //                 <div class="head-item-portofolio">
+        //                     <div class="flex-head">
+        //                         <p>${data.data[i].category}</p>
+        //                         <div class="label-item-portoflio-saham">SAHAM</div>
+        //                     </div>
+        //                     <h4>${data.data[i].trademark}</h4>
+        //                     <p class="company-portofolio">${data.data[i].company_name}</p>
+        //                 </div>
+        //                 <div class="info-fund-portofolio">
+        //                     <table style="width: 100%;">
+        //                          <tr>
+        //                             <td class="title-intable-saham">Tanggal Pembelian</td>
+        //                             <td class="value-intable-saham">${tanggalIndo(data.data[i].trx_date)}</td>
+        //                         </tr>
+        //                         <tr>
+        //                             <td class="title-intable-saham">
+        //                                 <p>Total Saham</p>
+        //                             </td>
+        //                             <td class="value-intable-saham">
+        //                                 <p><b>${formatNumber(
+        //   data.data[i].jumlah_saham
+        // )} Lembar</b></p>
+        //                             </td>
+        //                         </tr>
+        //                         <tr>
+        //                             <td class="title-intable-saham">Total Saham Dalam Rupiah</td>
+        //                             <td class="value-intable-saham"><b>${formatRupiah(
+        //   data.data[i].total_saham,
+        //   "Rp"
+        // )}</b></td>
+        //                         </tr>
+        //                     </table>
+        //                 </div>
+        //             </div>
+        //         </div>`;
+        //                 } else {
+        //                     emiten = `<div class="col-xl-6 col-lg-6 col-12" style="margin-bottom: 1em;">
+        //             <div class="item-portofolio-sukuk">
+        //                 <div class="head-item-portofolio" style="padding: 0;">
+        //                     <div class="flex-head">
+        //                         <p class="company-sukuks"><b>${data.data[i].company_name
+        // }</b></p>
+        //                         <div class="label-item-portofolio-sukuk">SUKUK</div>
+        //                     </div>
+        //                     <h4 class="title-sukuk-card">${data.data[i].trademark
+        // }</h4>
+        //                     <p class="sukuk-id">${data.data[i].code}</p>
+        //                 </div>
+        //                 <div class="sukuk-info">
+        //                     <h4><b>Informasi Sukuk</b></h4>
+        //                     <hr style="border-top: 2px solid rgba(0, 0, 0, .1);" />
+        //                     <table style="width: 100%;">
+        //                         <tr>
+        //                             <td class="title-sukuk-in-table">
+        //                                 <p>Sukuk ID</p>
+        //                             </td>
+        //                             <td class="value-sukuk-in-table">
+        //                                 <p><b>${data.data[i].code
+        // }</b></p>
+        //                             </td>
+        //                         </tr>
+        //                         <tr>
+        //                             <td class="title-sukuk-in-table">
+        //                                 <p>Total Unit Dalam Rupiah</p>
+        //                             </td>
+        //                             <td class="value-sukuk-in-table">
+        //                                 <p><b>${formatRupiah(
+        //   data.data[i].total_sukuk,
+        //   "Rp"
+        // )}</b></p>
+        //                             </td>
+        //                         </tr>
+        //                         <tr>
+        //                             <td class="title-sukuk-in-table">
+        //                                 <p>Total Unit</p>
+        //                             </td>
+        //                             <td class="value-sukuk-in-table">
+        //                                 <p><b>${formatNumber(
+        //   data.data[i].jumlah_sukuk
+        // )} Kupon</b></p>
+        //                             </td>
+        //                         </tr>
+        //                     </table>
+        //                 </div>
+        //             </div>
+        //         </div>`;
+        //                 }
+        //             }
+        //             $("#totalPortofolio").html(total);
+        //             $("#emitenPortofolio").html(emiten);
+        //         } else {
+        //             $("#totalPortofolio").html(
+        //                 '<div class="col-12 text-center"><b>Data portofolio kosong</b></div>'
+        //             );
+        //             $("#emitenPortofolio").html("");
+        //         }
+        //         $("#portofolio").modal("show");
+        //         e.stopPropagation();
+        //     }
       },
       error: function error(jqXHR, textStatus, errorThrown) {
         if (textStatus === "timeout" || textStatus === "error") {
