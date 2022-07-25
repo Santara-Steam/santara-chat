@@ -4677,6 +4677,7 @@ $(document).ready(function () {
             dataType: "json",
             beforeSend: function() {
                 $("#namaHeader").html(`Portofolio`);
+                console.log(url);
             },
             success: function(result) {
                 const data = result.token;

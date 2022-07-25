@@ -46,7 +46,7 @@ Route::group(["middleware" => ['web']], function ($router) {
     )->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 });
 
-Route::get('/portofolio/{userId}', [UserController::class, 'portofolio'])->name('portofolio');
+Route::get('/portofolio/{userId}', [UserController::class, 'portofolio']);
 
 Route::get('/', function () {
     if (\App\Helper\Auth::User()) {
