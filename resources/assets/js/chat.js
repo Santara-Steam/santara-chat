@@ -4688,11 +4688,8 @@ $(document).ready(function () {
                 let total = "";
                 let emiten = "";
 
-                if (data) { 
-                    console.log('ok');
-                } else {
-                    console.log('sip');
-                }
+                if (data) {
+                
                 
                     if (data.data.length != 0) {
                         total += `<div class="col-xl-4 col-lg-4 col-12 text-center">
@@ -4840,6 +4837,11 @@ $(document).ready(function () {
                     }
                     $("#portofolio").modal("show");
                     e.stopPropagation();
+                    // console.log('ok');
+                } else {
+                    // console.log('sip');
+                    displayToastr('Error', 'error', 'Error!.');
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if (textStatus === "timeout" || textStatus === "error") {
