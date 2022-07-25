@@ -4672,7 +4672,7 @@ $(document).ready(function () {
     $(document).on('click', '.portofolio-member-from-group', function (e) {
         var userid = $(this).data('member-id');
         $.ajax({
-            url: '{{ url(`/portofolio`) }}' + "/" + userid,
+            url: route('portofolio',userid),
             type: "GET",
             dataType: "json",
             beforeSend: function() {
