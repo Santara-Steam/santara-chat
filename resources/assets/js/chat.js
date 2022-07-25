@@ -4690,7 +4690,9 @@ $(document).ready(function () {
 
                 if (data.status != undefined) {
                     if (data.status == false) {
-                        Swal.fire("Error!", data.error[0].message, "error");
+                        // Swal.fire("Error!", data.error[0].message, "error");
+                        // displayToastr('success', 'success', data.message);
+                        displayToastr('Error', 'error', data.error[0].message);
                     }
                 } else {
                     if (data.data.length != 0) {
